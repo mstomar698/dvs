@@ -1,0 +1,79 @@
+<style>
+    .date-components, .sumbit-download{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .download-btn, .submit-btn{
+        position: absolute;
+        bottom: 0px;
+    }
+    .date-components{
+        width: 55%;
+    }
+    .sumbit-download{
+        width: 45%;
+    }
+    @media screen and (max-width: 700px){
+      .date-btn-wrapper{
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center;
+        margin-right: 0px !important;
+      }
+      .download-btn, .submit-btn{
+        position: relative !important;
+      }
+      .date-components, .sumbit-download{
+        width: 80%;
+      }
+      .sumbit-download{
+        margin-top: 10px;
+      }
+    }
+    @media screen and (max-width: 470px){
+      .date-components, .sumbit-download{
+        width: 95%;
+      }
+    }
+</style>
+<center>
+    <div style="display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                width: 80%;
+                margin-right: 10%"
+         class="date-btn-wrapper">
+        <div class="date-components">
+            <div>
+                <label for="start_date">
+                    <b>From:</b>
+                </label>
+                <input id="start-date"
+                       type="date"
+                       name="start_date"
+                       value="{{ start_date }}"
+                       required>
+            </div>
+            <div>
+                <label for="end_date">
+                    <b>To:</b>
+                </label>
+                <input id="end-date"
+                       type="date"
+                       name="end_date"
+                       value="{{ end_date }}"
+                       required>
+            </div>
+        </div>
+        <div class="sumbit-download">
+            <div style="position: relative;">
+                <button type="submit" class="btn btn-danger submit-btn">Submit</button>
+            </div>
+            <div style="position: relative;">
+                <button class="btn btn-success download-btn" onClick="download()">Download Graph</button>
+            </div>
+        </div>
+    </div>
+</center>

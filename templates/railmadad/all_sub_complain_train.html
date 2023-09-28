@@ -1,0 +1,101 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <style>
+  #more {
+    display: none;
+  }
+    </style>
+    <form action="/railmadad/all_sub_complain_train/{{ subtype }}/"
+          method="POST">
+        {% csrf_token %}
+        <script>
+    function myFunction() {
+      var dots = document.getElementById("dots");
+      var moreText = document.getElementById("more");
+      var btnText = document.getElementById("myBtn");
+
+      if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "show more";
+        moreText.style.display = "none";
+      } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "show less";
+        moreText.style.display = "inline";
+      }
+    }
+        </script>
+        <center class="center">
+            {% include 'railmadad/components/checkbox_js.html' %}
+            {% include 'railmadad/components/train_category_comp_withoutComplain.html' %}
+            {% include 'railmadad/components/date_range_comp.html' %}
+        </center>
+    </form>
+    <center>
+        <br />
+        <div class="col-xl-8 col-md-12">
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-blockk">
+                    <div id="sales-analytics" style="height: 100%">
+                        <div class="chart-container">
+                            <center>
+                                <h4>
+                                    <u>Data Show Graph For <b>{{ subtype }}</b></u>
+                                </h4>
+                            </center>
+                            {% if post %}
+                                <canvas id="myChart" height="50px" width="100%"></canvas>
+                            {% else %}
+                                <br />
+                                <center>
+                                    <h2>Please add filters to see charts</h2>
+                                </center>
+                            {% endif %}
+                        </div>
+                        <script>
+            var canvasP = document.getElementById("myChart");
+            var ctxP = canvasP.getContext('2d');
+            var myPieChart = new Chart(ctxP, {
+               type: 'bar',
+               data: {
+                  labels: [{% for d in first_n %} '{{d|convertint}}', {% endfor %}],
+                  datasets: [{
+                     label: '{{subtype}}',
+                     data: {{data_count}},
+                     backgroundColor: "lightred",
+                     hoverBackgroundColor: "lightred",
+                  }]
+               },
+               options: {
+                  legend: {
+                     display: true,
+                     position: "right"
+                  }
+               }
+            });
+  
+            canvasP.onclick = function(e) {
+               var slice = myPieChart.getElementAtEvent(e);
+               if (!slice.length) return; // return if not clicked on slice
+               var label = slice[0]._model.label;
+               switch (label) {
+                  {% for d in train_numbers %}
+                  case '{{d}}':
+                     window.open('/railmadad/complain/{{d}}----SUB_TYPE_ALL_COMPLAIN_TRAIN_WISE/{{start_date}}/{{end_date}}?complain_type=&train_number={{d}}&physical_coach_number=&sub_type={{subtype}}')
+                     break;
+                  {% endfor %}
+               }
+            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+{% endblock %}

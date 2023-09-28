@@ -1,0 +1,216 @@
+{% load customcmm %}
+<style>
+.pcoded-left-item li.active{
+    background-color: #448aff;
+    /* pointer-events: none; */
+}
+
+.pcoded-left-item{
+    padding: 0px 7px 12px 0px !important ;
+}
+
+.main-menu{
+    width: 245px;
+}
+
+</style>
+<nav class="pcoded-navbar">
+    <div class="sidebar_toggle">
+        <a href="#"><i class="icon-close icons"></i></a>
+    </div>
+    <div class="pcoded-inner-navbar main-menu">
+        <div class="">
+            <div class="main-menu-header">
+                <div class="container mx-0">
+                    <div class="img-radius" id="img-radius"></div>
+                    <div class="user-details">
+                        <span id="more-details" style="font-size:1.1rem">{{ request.user.username }}<i class="fa fa-caret-down" style="font-size:0.9rem"></i></span>
+                    </div>
+                </div>
+                <div class="main-menu-content">
+                    <ul>
+                        <li class="more-details">
+                            <hr style="margin:0;padding:0">
+                            <a href="/auth/user_profile" style="color:white"><i class="ti-user"></i>View Profile</a>
+                            <hr style="margin:0;padding:0">
+                            <a href="/logout" style="color:white"><i class="ti-layout-sidebar-left"></i>Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Charts</div>
+            <ul class="pcoded-item pcoded-left-item">
+                <li>
+                    <a href="/cmm/sick_head_graph" class="waves-effect waves-dark">
+                        <span data-i18n="nav.dash.main">Sick Head Chart</span>
+                    </a>
+                </li>
+                <!--  <li>
+                <a href="/cmm/sick_head_table" class="waves-effect waves-dark">
+                        <span data-i18n="nav.dash.main">Sick Head Table</span>
+                    </a>
+                </li> -->
+                {% comment %} <li>
+                    <a href="/cmm/coach_pro_graph" class="waves-effect waves-dark">
+                        <span data-i18n="nav.dash.main">Coach Pro Chart</span>
+                    </a>
+                </li> {% endcomment %}
+                <li>
+                    <a href="/cmm/coach_pro_table" class="waves-effect waves-dark">
+                        <span data-i18n="nav.dash.main">Coach PRO Table</span>
+                    </a>
+                </li>
+                <!-- <li>
+                    <a href="/cmm/mix_chart" class="waves-effect waves-dark">
+                        <span data-i18n="nav.form-components.main">Mix Chart</span>
+                    </a>
+                </li> -->
+                <li>
+                    <a href="/cmm/warranty_complain_graph" class="waves-effect waves-dark">
+                        <span data-i18n="nav.dash.main">Warranty Complaint Graph and Table</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/cmm/new_warranty_complain_graph"
+                       class="waves-effect waves-dark">
+                        <span data-i18n="nav.dash.main">New Warranty Complaint Graph and Table</span>
+                    </a>
+                </li>
+            </ul>
+        </ul>
+    </li>
+</ul>
+</div>
+{% if request.user|has_group:"Moderator" %}
+    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Upload/download data</div>
+{% else %}
+    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">download data</div>
+{% endif %}
+<ul class="pcoded-item pcoded-left-item">
+    {% if request.user|has_group:"Moderator" %}
+        <li>
+            <a href="/cmm/data_upload_sick_head"
+               id="data-upload-click"
+               class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="fa fa-file"></i><b>FC</b></span>
+                <span class="pcoded-mtext" data-i18n="nav.form-components.main">Upload Sick Head
+                data</span>
+                <span class="pcoded-mcaret"></span>
+            </a>
+        </li>
+        <li>
+            <a href="/cmm/data_upload_pro"
+               id="data-upload-click"
+               class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="fa fa-file"></i><b>FC</b></span>
+                <span class="pcoded-mtext" data-i18n="nav.form-components.main">Upload PRO
+                data</span>
+                <span class="pcoded-mcaret"></span>
+            </a>
+        </li>
+        <li>
+            <a href="/cmm/data_upload_warranty_complain"
+               id="data-upload-click"
+               class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="fa fa-file"></i><b>FC</b></span>
+                <span class="pcoded-mtext" data-i18n="nav.form-components.main">Upload Warranty Complaint
+                data</span>
+                <span class="pcoded-mcaret"></span>
+                <br>
+                <br>
+            </a>
+        </li>
+        <li>
+            <a href="/cmm/data_upload_warranty_complain_new"
+               id="data-upload-click"
+               class="waves-effect waves-dark">
+                <span class="pcoded-micon"><i class="fa fa-file"></i><b>FC</b></span>
+                <span class="pcoded-mtext" data-i18n="nav.form-components.main">Upload New Warranty Complaint
+                data</span>
+                <span class="pcoded-mcaret"></span>
+                <br>
+                <br>
+            </a>
+        </li>
+    {% else %}
+    {% endif %}
+    <hr>
+    <li>
+        <a href="/cmm/download_sick_head_data_csv"
+           id="data-upload-click"
+           class="waves-effect waves-dark">
+            <span class="pcoded-micon"><i class="fa fa-download"></i><b>FC</b></span>
+            <span class="pcoded-mtext" data-i18n="nav.form-components.main">Download Sick Head Data</span>
+            <span class="pcoded-mcaret"></span>
+        </a>
+    </li>
+    <li>
+        <a href="/cmm/download_data_csv_PRO"
+           id="data-upload-click"
+           class="waves-effect waves-dark">
+            <span class="pcoded-micon"><i class="fa fa-download"></i><b>FC</b></span>
+            <span class="pcoded-mtext" data-i18n="nav.form-components.main">Download CMM PRO Data</span>
+            <span class="pcoded-mcaret"></span>
+        </a>
+    </li>
+    <li>
+        <a href="/cmm/download_warranty_complain_data_csv"
+           id="data-upload-click"
+           class="waves-effect waves-dark">
+            <span class="pcoded-micon"><i class="fa fa-download"></i><b>FC</b></span>
+            <span class="pcoded-mtext" data-i18n="nav.form-components.main">Download CMM Warranty Data</span>
+            <span class="pcoded-mcaret"></span>
+            <br>
+            <br>
+        </a>
+    </li>
+    <li>
+        <a href="/cmm/download_warranty_complain_data_new_csv"
+           id="data-upload-click"
+           class="waves-effect waves-dark">
+            <span class="pcoded-micon"><i class="fa fa-download"></i><b>FC</b></span>
+            <span class="pcoded-mtext" data-i18n="nav.form-components.main">Download CMM Warranty New Data</span>
+            <span class="pcoded-mcaret"></span>
+            <br>
+            <br>
+        </a>
+    </li>
+</ul>
+{% if request.user|has_group:'Railway Admin' %}
+    <ul class="pcoded-item pcoded-left-item">
+        <li>
+            <a href="/auth/show_user_requested" class="waves-effect waves-dark">
+            <span class="pcoded-micon"><i class="fa fa-user"></i>
+            <br>
+            <b>FC</b></span>
+        <span class="pcoded-mtext" data-i18n="nav.form-components.main">User Requests</span>
+        <span class="pcoded-mcaret"></span>
+    </a>
+</li>
+</ul>
+{% endif %}
+</div>
+</nav>
+<script>
+    $(document).ready( function() {
+        var array1 = $("div").children(".pcoded-left-item")
+        for(var i=0; i<array1.length; i++){
+            var array2=array1[i].childNodes
+            for(var j=0; j<array2.length; j++){
+                var array3=array2[j].childNodes
+                if(array3[1]){
+                    var window_path
+                    if(window.location.pathname.trim().split("/").slice(-1)[0]){
+                        window_path = window.location.pathname.split("/").slice(-1)[0]
+                    }
+                    else{
+                        window_path = window.location.pathname.split("/").slice(-2)[0]
+                    }
+                    if(array3[1].href.split("/").slice(-1)[0]==window_path){
+                        $(array3[1]).parent().addClass("active");
+                    }
+                }
+            }
+        }
+    });
+</script>

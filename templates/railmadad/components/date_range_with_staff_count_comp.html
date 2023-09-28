@@ -1,0 +1,74 @@
+{% load customrailmadad %}
+<style>
+    .date-staff-count-btns{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .date-staff-count{
+        display: flex;
+        flex-direction: row;
+    }
+    #start-date, #end-date{
+        height: 30px;
+    }
+    .staff-count-div{
+        margin: 0px 10px;
+    }
+    .date-start-end{
+        display: flex;
+        flex-direction: row;
+    }
+
+    @media screen and (max-width: 1200px){
+        .date-staff-count-btns{
+            flex-direction: column;
+        }
+        .submit-download{
+            margin-top: 10px;
+        }
+    }
+
+    @media screen and (max-width: 715px){
+        .date-staff-count{
+            flex-direction: column;
+        }
+    }
+</style>
+<center class="date-staff-count-btns">
+    <div class="date-staff-count">
+        <div class="staff-count-div">
+            <label for="staff_count">
+                <b>Enter Count:</b>
+            </label>
+            <input id="staff" type="number" name="staff_count" value={{ staff_count }} required>
+        </div>
+        <div class="date-start-end">
+            <div style="margin: 0px 10px;">
+                <label for="start_date">
+                    <b>From:</b>
+                </label>
+                <input id="start-date"
+                       type="date"
+                       name="start_date"
+                       value="{{ start_date }}"
+                       required>
+            </div>
+            <div style="margin: 0px 10px;">
+                <label for="end_date">
+                    <b>To:</b>
+                </label>
+                <input id="end-date"
+                       type="date"
+                       name="end_date"
+                       value="{{ end_date }}"
+                       required>
+            </div>
+        </div>
+    </div>
+    <div class="submit-download">
+        <button type="submit" class="btn btn-danger">Submit</button>
+        <button class="btn btn-success" onClick="download()">Download Graph</button>
+    </div>
+</center>

@@ -1,0 +1,167 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+  $(document).ready(function () {
+    $("#select-all-2").click(function () {
+      var checked = this.checked;
+      $('input[complain="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#select-critical").click(function () {
+      var checked = this.checked;
+      $('input[critical="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#rncc").click(function () {
+      var checked = this.checked;
+      $('input[rncc="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+    $("#all").click(function () {
+      var checked = this.checked;
+      $('input[this="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+    $("#rgd").click(function () {
+      var checked = this.checked;
+      $('input[rgd="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#dnr").click(function () {
+      var checked = this.checked;
+      $('input[dnr="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#pnbe").click(function () {
+      var checked = this.checked;
+      $('input[pnbe="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ppta").click(function () {
+      var checked = this.checked;
+      $('input[ppta="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ipr").click(function () {
+      var checked = this.checked;
+      $('input[ipr="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#keu").click(function () {
+      var checked = this.checked;
+      $('input[keu="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#mka").click(function () {
+      var checked = this.checked;
+      $('input[mka="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ara").click(function () {
+      var checked = this.checked;
+      $('input[ara="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+  });
+    </script>
+    <style>
+  #more {
+    display: none;
+  }
+    </style>
+    <form action="/railmadad/sub_type/{{ subtype }}/" method="POST">
+        {% csrf_token %}
+        {% include 'railmadad/components/train_category_comp.html' %}
+        {% include 'railmadad/components/date_range_comp.html' %}
+        <script>
+    function myFunction() {
+      var dots = document.getElementById("dots");
+      var moreText = document.getElementById("more");
+      var btnText = document.getElementById("myBtn");
+
+      if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "Show more";
+        moreText.style.display = "none";
+      } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "Show less";
+        moreText.style.display = "inline";
+      }
+    }
+        </script>
+    </form>
+    <div class="col-xl-8 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Railway Data</h4>
+                <span class="text-muted">This is Graph Show for Railway</span>
+            </div>
+            <div class="card-blockk">
+                <div id="sales-analytics" style="height: 100%">
+                    <div class="chart-container">
+                        <center>
+                            <h4>
+                                <u>Data Show Graph For <b>{{ subtypes }}</b></u>
+                            </h4>
+                        </center>
+                        {% if show %}
+                            <a target="__blank"
+                               href='/railmadad/complain/{{ subtype }}/{{ start_date }}/{{ end_date }}?complain_type=Coach - Cleanliness--Bed Roll--Security--Punctuality--Water Availability--Electrical Equipment--Medical Assistance--Coach - Maintenance--Miscellaneous--Staff Behaviour&train_number={{ checked | join:"-" }}&physical_coach_number='><canvas id="myChart" height="30px" width="100%"></canvas></a>
+                        {% else %}
+                            <br />
+                            <center>
+                                <h2>Please add filters to see graph</h2>
+                            </center>
+                        {% endif %}
+                    </div>
+                    <script>
+          const labels = [{% for d in dates %} '{{d}}', {% endfor %}];
+          const data = {
+            labels: labels,
+            datasets: [{
+              label: '{{subtype}}',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: {{data_count}},
+            }]
+          };
+          const config = {
+            type: 'line',
+            data: data,
+            options: {
+              responsive:true,
+            }
+          };
+                    </script>
+                    <script>const myChart = new Chart(document.getElementById("myChart"), config);</script>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

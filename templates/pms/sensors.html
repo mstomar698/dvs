@@ -1,0 +1,57 @@
+{% extends 'pms/base.html' %} {% load customrailmadad %} {% block body %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+{% for message in messages %}
+<div id="alert" class="alert alert-{{ message.tags }}">{{ message }}</div>
+<script type="text/javascript">
+  setTimeout(function () {
+    $('#alert').alert('close');
+  }, 4000);
+</script>
+{% endfor %}
+<style>
+  .chartBox {
+    display: flex;
+    width: 100%;
+    position: relative;
+    bottom: 0px;
+    justify-content: center;
+  }
+  .table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
+<div class="chartBox">
+  <div class="table-container">
+    <h3 style="padding: 16px; align-items:center ;">Data for <span style="font-size: large; color: red;">{{sensor|upper}}</span> from <span style="font-size: large; color: red;">{{start_date}} {{start_time}}</span> to <span style="font-size: large; color: red;">{{end_date}} {{end_time}}</span></h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sensor Name</th>
+          <th>Data</th>
+          <th>Device</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in filtered_data %}
+        <tr style="text-align: center;">
+          <td>{{ sensor }}</td> 
+          <td>{{ entry.data }}</td>
+          <td>{{ entry.device }}</td>
+          <td>{{ entry.formatted_created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

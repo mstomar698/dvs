@@ -1,0 +1,144 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block title %}Summary Table{% endblock %}
+{% block breadcrum %}
+    <li class="breadcrumb-item">
+        <a href="/railmadad/download_data_csv/">
+            <i class="fa fa-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">See The Data</li>
+    <li class="breadcrumb-item">
+        <a href="/railmadad/download_data_csv/">Summary Table</a>
+    </li>
+{% endblock %}
+{% block body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+    </style>
+    <form action="/railmadad/download_data_csv/" method="POST">
+        {% csrf_token %}
+        {% include 'railmadad/components/train_category_comp.html' %}
+        <br />
+        <!-- {% include 'railmadad/components/complain_type_comp.html' %} -->
+        {% include 'railmadad/components/date_range_comp.html' %}
+        <br>
+        <br>
+        <center>
+            <h3>
+                <u>Add Filters and Click on Submit Button To Download Data</u>
+            </h3>
+        </center>
+    </form>
+    <div class="container"></div>
+    <script>
+
+    function myFunction() {
+        var dots = document.getElementById("dots");
+        var moreText = document.getElementById("more");
+        var btnText = document.getElementById("myBtn");
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            btnText.innerHTML = "Show more";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            btnText.innerHTML = "Show less";
+            moreText.style.display = "inline";
+        }
+    }
+
+    $(document).ready(function () {
+        $('#select-all-2').click(function () {
+            var checked = this.checked;
+            $('input[complain="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#select-critical').click(function () {
+            var checked = this.checked;
+            $('input[critical="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#rncc').click(function () {
+            var checked = this.checked;
+            $('input[rncc="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+        $('#all').click(function () {
+            var checked = this.checked;
+            $('input[this="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+        $('#rgd').click(function () {
+            var checked = this.checked;
+            $('input[rgd="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#dnr').click(function () {
+            var checked = this.checked;
+            $('input[dnr="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#pnbe').click(function () {
+            var checked = this.checked;
+            $('input[pnbe="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#ppta').click(function () {
+            var checked = this.checked;
+            $('input[ppta="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#ipr').click(function () {
+            var checked = this.checked;
+            $('input[ipr="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#keu').click(function () {
+            var checked = this.checked;
+            $('input[keu="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#mka').click(function () {
+            var checked = this.checked;
+            $('input[mka="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+        $('#ara').click(function () {
+            var checked = this.checked;
+            $('input[ara="true"]').each(function () {
+                this.checked = checked;
+            });
+        })
+
+    });
+
+    </script>
+{% endblock %}

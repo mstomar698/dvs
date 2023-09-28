@@ -1,0 +1,84 @@
+{% extends 'cmm/base.html' %}
+{% load customcmm %}
+{% block url_name %}Create Staff Name{% endblock %}
+{% block url_title %}Create Staff Name{% endblock %}
+{% block breadcrum %}
+    <li class="breadcrumb-item">
+        <a href="index.html">
+            <i class="fa fa-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">Create Staff Name</li>
+    <li class="breadcrumb-item">
+        <a href="/auth/create_staff">Create Staff Name</a>
+    </li>
+{% endblock %}
+{% block title %}Create Staff Name{% endblock %}
+{% block body %}
+    {% for message in messages %}
+        <div id="alert" class="alert alert-{{ message.tags }}">{{ message }}</div>
+        <script type="text/javascript">
+setTimeout(function () {
+    $('#alert').alert('close');
+}, 4000);
+        </script>
+    {% endfor %}
+    <form action="/auth/create_staff/" method="post">
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Staff Id</th>
+                    <th scope="col">Staff First Name</th>
+                    <th scope="col">Staff Last Name</th>
+                    <th scope="col">Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <input type="text" name="staff_id" required>
+                    </input>
+                </th>
+                <td scope="row">
+                    <input type="text" name="first_name" required>
+                </input>
+            </td>
+            <td scope="row">
+                <input type="text" name="last_name" required>
+            </input>
+        </td>
+        <td scope="row">
+            <select name="department" id="Department" style="width:200px;height:27px">
+                <option value="OBSH">OBSH</option>
+                <option value="Electrical">Electrical</option>
+            </select>
+        </td>
+    </tr>
+</tbody>
+</table>
+<button type="submit" class="btn btn-success mx-2">Create Staff</button>
+</form>
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Sl. No.</th>
+            <th scope="col">Staff Id</th>
+            <th scope="col">Staff First Name</th>
+            <th scope="col">Staff Last Name</th>
+            <th scope="col">Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for staff in staff_data %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td scope="row">{{ staff.3 }}</td>
+                <td scope="row">{{ staff.1 }}</td>
+                <td scope="row">{{ staff.2 }}</td>
+                <td scope="row">{{ staff.4 }}</td>
+                <tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}

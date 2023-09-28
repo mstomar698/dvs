@@ -1,0 +1,21 @@
+{% load customcmm %}
+<center>
+    <h4>MAIN DEPOT</h4>
+</center>
+<center>
+    <div class="form-check my-4">
+        {% for depot in main_depot %}
+            <span class="p-3">
+                <input class="form-check-input"
+                       type="checkbox"
+                       value="{{ depot }}"
+                       id="{{ depot }}"
+                       name="main-depot"
+                       checked>
+                <label>
+                    <h5>{{ depot }}</h5>
+                </label>
+            </span>
+        {% endfor %}
+    </div>
+</center>

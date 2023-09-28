@@ -1,0 +1,404 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block url_name %}Data Based on Complain Type{% endblock %}
+{% block url_title %}Complain Type{% endblock %}
+{% block breadcrum %}
+    <li class="breadcrumb-item">
+        <a href="index.html">
+            <i class="fa fa-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">See The Data for Complain Type</li>
+{% endblock %}
+{% block title %}Data Based on Complain Type{% endblock %}
+{% block body %}
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    /* color: rgb(0, 0, 0); */
+    text-decoration: none;
+  }
+
+  th a,
+  td a {
+    display: block;
+    width: 100%;
+  }
+
+  th a.sort-by {
+    padding-right: 18px;
+    position: relative;
+  }
+
+  th a.sort-by:hover {
+    color: rgb(0, 84, 87);
+  }
+
+  a.sort-by:before,
+  a.sort-by:after {
+    border: 4px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    right: 5px;
+    top: 50%;
+    position: absolute;
+    width: 0;
+  }
+
+
+  .table-responsive {
+    height: 90vh; /* set a fixed height for the scrollable area */
+
+    overflow: auto; /* make the table scrollable */
+   
+    }
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+  }
+
+ 
+
+
+  @media (max-width: 991px) {
+    .responsive>thead th {
+      display: none;
+    }
+
+    .responsive>tbody td,
+    .responsive>tbody th {
+      display: block;
+    }
+
+    .responsive>tbody>tr:nth-child(even) td,
+    .responsive>tbody>tr:nth-child(even) th {
+      background-color: #eee;
+    }
+
+    [row-header] {
+      position: relative;
+      width: 50%;
+      vertical-align: middle;
+    }
+
+    [row-header]:before {
+      content: attr(row-header);
+      display: inline-block;
+      vertical-align: middle;
+      text-align: left;
+      width: 50%;
+      padding-right: 30px;
+    }
+  }
+    </style>
+    <div class="table-responsive container-fluid">
+        {% if all_data %}
+            <center>
+                <h3>Kindly Select any month Range To See Rating Wise Data Monthly</h3>
+                <center>
+                {% else %}
+                    <thead style="position: sticky; top: 0;">
+                        <center class="my-2">
+                            <h5>
+                                <u>Fetched {{ res_count }} data rows from table.</u>
+                            </h5>
+                            <button class="btn btn-danger my-2 download-button" id="download-button">Download Data</button>
+                        </center>
+                    </thead>
+                </center>
+            </center>
+        {% endif %}
+        <!-- <div class="table-wrapper"> -->
+        <table id="table"
+               class="table table-striped table-bordered table-sm"
+               cellspacing="0"
+               width="100%">
+            <!-- <thead style="background-color: #ffffff; position: sticky; top: 0;">
+          <tr>
+            <th class="col" column="1"> Sl No.</a></th>
+            <th class="col" column="11" class="sort-by"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=reference-number&order={{order}}" class="sort-by">Reference no</a></th>
+            <th class="col" column="2"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=coach-number&order={{order}}" class="sort-by">Coach Number</a></th>
+            <th class="col" column="3"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=train-number&order={{order}}" class="sort-by">Train Number</a></th>
+            <th class="col" column="4"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=rake_number&order={{order}}" class="sort-by">Rake Number</a></th>
+            <th class="col" column="5"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=type&order={{order}}" class="sort-by">Type</a></th>
+            <th class="col" column="6"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=sub-type&order={{order}}" class="sort-by">Sub Type</a></th>
+            <th class="col" column="7"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=disposal-time&order={{order}}" class="sort-by">Disposal Time</a></th>
+            <th class="col" column="8"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=rating&order={{order}}" class="sort-by">Rating</a></th>
+            <th class="col" column="9"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=reg-date&order={{order}}" class="sort-by">Registration Date</a></th>
+            <th class="col" column="10"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=closing_date&order={{order}}" class="sort-by">Closing Date</a></th>
+            <th class="col" column="11"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=staff&order={{order}}" class="sort-by">Staff Name</a></th>
+            <th class="col"><a href="/railmadad/complain/{{complain_type}}/{{start_date}}/{{end_date}}?complain_type={{complain_list}}&train_number={{train_numbers_list}}&physical_coach_number={{coach_num}}&sort_method=staff_id&order={{order}}" class="sort-by">Staff ID</a></th>
+            <th class="col" column="12" class="sort-by">Complain Description</th>
+            <th class="col" column="13">Remark</th>
+          </tr>
+        </thead> -->
+            <thead style="background-color: #ffffff; position: sticky; top: 0;">
+                <tr>
+                    <th class="col" column="1">
+                    Sl No.</a>
+                </th>
+                <th class="col" column="11" class="sort-by">Reference no</th>
+                <th class="col" column="2">Coach Number</th>
+                <th class="col" column="3">Train Number</th>
+                <th class="col" column="4">Rake Number</th>
+                <th class="col" column="5">Type</th>
+                <th class="col" column="6">Sub Type</th>
+                <th class="col" column="7">Disposal Time</th>
+                <th class="col" column="8">Rating</th>
+                <th class="col" column="9">Registration Date</th>
+                <th class="col" column="10">Closing Date</th>
+                <th class="col" column="11">Staff Name</th>
+                <th class="col">Staff ID</th>
+                <th class="col" column="12" class="sort-by">Complain Description</th>
+                <th class="col" column="13">Remark</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in problem_type %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    {% if p.9 == None or p.9 == "" or p.9 == -1 or p.9 == "-1" or p.9 == "-1.0" %}
+                        <td>N/D</td>
+                    {% else %}
+                        <td>{{ p.9|convertint }}</td>
+                    {% endif %}
+                    {% if p.0 == nan or p.0 == " " or p.0 == 0 or p.0 == -1 or p.0 == "-1" or p.0 == "-1.0" %}
+                        <td>N/D</td>
+                    {% else %}
+                        <td>{{ p.0|convertint }}</td>
+                    {% endif %}
+                    {% if p.1 == nan or p.1 == " " or p.1 == 0 or p.1 == -1 or p.1 == "-1" or p.1 == "-1.0" %}
+                        <td>N/D</td>
+                    {% else %}
+                        <td>{{ p.1|convertint }}</td>
+                    {% endif %}
+                    {% if p.12 == nan or p.12 == " " or p.12 == 0 or p.12 == -1 or p.12 == "-1" or p.12 == "-1.0" %}
+                        <td>N/A</td>
+                    {% else %}
+                        <td>{{ p.12 }}</td>
+                    {% endif %}
+                    {% if p.2 == nan or p.2 == " " or p.2 == 0 or p.2 == -1 or p.2 == "-1" or p.2 == "-1.0" %}
+                        <td>N/D</td>
+                    {% else %}
+                        <td>{{ p.2 }}</td>
+                    {% endif %}
+                    {% if p.3 == nan or p.3 == " " or p.3 == 0 or p.3 == -1 or p.3 == "-1" or p.3 == "-1.0" %}
+                        <td>N/D</td>
+                    {% else %}
+                        <td>{{ p.3 }}</td>
+                    {% endif %}
+                    {% if p.4 == nan or p.4 == " " or p.4 == 0 or p.4 == -1 or p.4 == "-1" or p.4 == "-1.0" %}
+                        <td>N/D</td>
+                    {% else %}
+                        <td>{{ p.4 }}</td>
+                    {% endif %}
+                    {% if p.5 == nan or p.5 == " " or p.5 == 0 or p.5 == -1 or p.5 == "-1" or p.5 == "-1.0" %}
+                        <td>NOT RATED</td>
+                    {% else %}
+                        <td>{{ p.5 }}</td>
+                    {% endif %}
+                    {% if p.6 == nan or p.6 == " " or p.6 == 0 or p.6 == -1 or p.6 == "-1" or p.6 == "-1.0" %}
+                        <td>N/D</td>
+                    {% else %}
+                        <td>{{ p.6 }}</td>
+                    {% endif %}
+                    {% if p.13 == nan or p.13 == " " or p.13 == 0 or p.13 == -1 or p.13 == "-1" or p.13 == "-1.0" %}
+                        <td>N/A</td>
+                    {% else %}
+                        <td>{{ p.13 }}</td>
+                    {% endif %}
+                    {% if p.8 == nan or p.8 == " " or p.8 == 0 or p.8 == -1 or p.8 == "-1" or p.8 == "-1.0" %}
+                        <td>N/A</td>
+                    {% else %}
+                        <td>{{ p.8 }}</td>
+                    {% endif %}
+                    {% if p.10 == nan or p.10 == " " or p.10 == 0 or p.10 == -1 or p.10 == "-1" or p.10 == "-1.0" %}
+                        <td>N/A</td>
+                    {% else %}
+                        <td>{{ p.10 }}</td>
+                    {% endif %}
+                    {% comment %} For Complain Description {% endcomment %}
+                    <td>
+                        <div class="not-for-download">
+                            {% if p.7 == '-1' %}
+                                N/A
+                            {% else %}
+                                {% if p.7|length > 40 %}
+                                    {{ p.7|truncatechars:40 }} <a href="#" onclick="showModal('{{ p.7 }}','Complain Description')">Show more...</a>
+                                {% else %}
+                                    {{ p.7 }}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="for-download" style="display: none;">
+                            {% if p.7 == '-1' %}
+                                N/A
+                            {% else %}
+                                {{ p.7 }}
+                            {% endif %}
+                        </div>
+                    </td>
+                    {% comment %} For Remark {% endcomment %}
+                    <td>
+                        <div class="not-for-download">
+                            {{ p.11|truncatechars:40 }} <a href="#" onclick="showModal('{{ p.11 }}','Remark')">Show more...</a>
+                        </div>
+                        <div class="for-download" style="display: none;">{{ p.11 }}</div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+<!-- Modal -->
+<div class="modal fade"
+     id="exampleModal"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">...</div>
+        </div>
+    </div>
+</div>
+<script>
+
+  var innerContainer = document.getElementsByClassName('table-responsive')[0];
+  innerContainer.addEventListener('scroll', function() {
+    window.scrollTo(0, document.body.scrollHeight);
+
+  });
+
+  function showModal(text,title){
+    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    document.getElementsByClassName('modal-body')[0].innerHTML=text
+    document.getElementsByClassName('modal-title')[0].innerHTML=title
+    myModal.show();
+
+  }
+
+
+
+  document.getElementById("download-button").addEventListener("click", function () {
+    console.log("clicked")
+
+    $(".not-for-download").hide();
+    $(".for-download").show();
+
+    var html = document.querySelector("table").outerHTML;
+    htmlToCSV(html, "data.csv");
+
+    $(".not-for-download").show();
+    $(".for-download").hide();
+
+    // document.getElementById("download-button").innerText = "Downloading..."
+  });
+  function htmlToCSV(html, filename) {
+    var data = [];
+    var rows = document.querySelectorAll("table tr");
+    for (var i = 0; i < rows.length; i++) {
+      var row = [], cols = rows[i].querySelectorAll("td, th");
+      for (var j = 0; j < cols.length; j++) {
+        console.log(cols[j].innerText);
+        row.push(cols[j].innerText);
+      }
+      // console.log(row);
+      data.push(row.join("---").replaceAll(",", " ").split("---").join(", "));
+      // console.log("Row after transformation: ");
+      // console.log(row);
+      // console.log(data)
+    }
+
+    downloadCSVFile(data.join("\n"), filename);
+    
+  }
+
+  function downloadCSVFile(csv, filename) {
+    var csv_file, download_link;
+    csv_file = new Blob([csv], { type: "text/csv" });
+    download_link = document.createElement("a");
+    download_link.download = filename;
+    download_link.href = window.URL.createObjectURL(csv_file);
+    download_link.style.display = "none";
+    document.body.appendChild(download_link);
+    download_link.click();
+    // document.getElementById("download-button").innerText = "Download"
+
+  }
+
+
+</script>
+{% if order == 'asc' %}
+    <style>
+  a.sort-by:before {
+    border-bottom-color: rgb(0, 0, 0);
+    margin-top: -9px;
+  }
+
+  a.sort-by:after {
+    border-top-color: #666;
+    margin-top: 1px;
+  }
+    </style>
+{% elif order == 'desc' %}
+    <style>
+  a.sort-by:before {
+    border-bottom-color: #666;
+    margin-top: -9px;
+  }
+
+  a.sort-by:after {
+    border-top-color: rgb(0, 0, 0);
+    margin-top: 1px;
+  }
+    </style>
+{% else %}
+    <style>
+  a.sort-by:before {
+    border-bottom-color: #666;
+    margin-top: -9px;
+  }
+
+  a.sort-by:after {
+    border-top-color: #666;
+    margin-top: 1px;
+  }
+    </style>
+{% endif %}
+{% endblock %}
+{% block js %}
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script>
+  $(document).ready(function () {
+    $("#table").DataTable({
+      search: {
+        return: true,
+      },
+      dom: "Bfrtip",
+      buttons: ["csv", "excel", 'pageLength'],
+    });
+  });
+    </script>
+{% endblock js %}

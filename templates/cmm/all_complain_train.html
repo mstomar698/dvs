@@ -1,0 +1,241 @@
+{% extends 'cmm/base.html' %}
+{% load customcmm %}
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src='https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js '></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+  #more {display: none;}
+  .charts-holder {
+    display:flex;
+    flex-flow: row wrap;  
+  
+  }
+  
+  .card-block {
+    width: 50%;
+  }
+  
+  canvas {
+    width: 500px;
+    height: 400px;
+  }
+  
+  @media screen and (max-width: 1004px) {
+    .charts-holder {
+      flex-flow:column wrap;
+      justify-content:center;
+      align-items: center;
+    }
+  
+    .card-block {
+      width: 100%;
+    }
+
+    canvas {
+      width: 400px;
+      height: 300px; 
+    }
+  
+  
+  
+  }
+  
+    </style>
+    <form action="/cmm/all_complain_train/" method="POST">
+        {% csrf_token %}
+        <center>
+            <div class="form-check">
+                {% include 'components/train_category_comp.html' %}
+                {% include 'components/complain_type_comp.html' %}
+                <script>
+function myFunction() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Show more"; 
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Show less"; 
+    moreText.style.display = "inline";
+  }
+}
+                </script>
+                <center class="center">
+                    <h5>Filter Data:-</h5>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {% include 'components/date_range_comp.html' %}
+                </center>
+            </form>
+            <div class="">
+                <div class="card-header">
+                    <h4>Railway Data</h4>
+                    <span class="text-muted">This is Graph Show for Railway</span>
+                </div>
+                <div class="card charts-holder">
+                    {% for t in total %}
+                        <div class="card-block">
+                            <div id="sales-analytics">
+                                <div class="chart-container ">
+                                    <center>
+                                        <h4>
+                                            <u>Data Show Graph For {{ complain_type|index:forloop.counter0 }}</u>
+                                        </h4>
+                                    </center>
+                                    {% if show %}
+                                        <div class="container-fluid d-flex align-items-center justify-content-center">
+                                            <button onClick="download('myChart{{ forloop.counter }}')"
+                                                    class="btn btn-success btn-sm">Download Data-Graph</button>
+                                        </div>
+                                        <a target="blank"
+                                           href='/cmm/complain/{{ complain_type|index:forloop.counter0 }}/{{ start_date }}/{{ end_date }}?complain_type={{ complain_type | join:"--" }}&train_number={{ checked | join:"-" }}&coach_number='><canvas id="myChart{{ forloop.counter }}" height="300px" width="400px"></canvas></a>
+                                    {% else %}
+                                        <br>
+                                        <center>
+                                            <h2>Please add filters to see graph</h2>
+                                        </center>
+                                    {% endif %}
+                                </div>
+                                <script>
+  const labels{{forloop.counter}} = [{% for d in train_number  %} '{{d|convertint}}', {% endfor %}];
+  const data{{forloop.counter}} = {
+    labels: labels{{forloop.counter}},
+    datasets: [{
+      label: 'Complaint Number',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: {{t}},
+    }]
+  };
+  const config{{forloop.counter}} = {
+    type: 'line',
+    data: data{{forloop.counter}},
+    options: {
+      responsive:true,
+    }
+  };
+                                </script>
+                                <script>
+  const myChart{{forloop.counter}} = new Chart(
+    document.getElementById('myChart{{forloop.counter}}'),
+    config{{forloop.counter}}
+  );
+
+function download(id){
+  const imageLink = document.createElement('a');
+  const canvas = document.getElementById(id);
+  imageLink.download = 'All_Complain_Train_Wise.png'
+  imageLink.href = canvas.toDataURL('media/data/canvas',1);
+  // window.open(imageLink);
+  // document.write('<img src=" '+imageLink+' " />')
+
+  // console.log(imageLink.href);
+  imageLink.click();
+}
+
+$(document).ready(function() {
+    $('#select-all-2').click(function() {
+        var checked = this.checked;
+        $('input[complain="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+
+    $('#select-critical').click(function() {
+        var checked = this.checked;
+        $('input[critical="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#rncc').click(function() {
+        var checked = this.checked;
+        $('input[rncc="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#all').click(function() {
+        var checked = this.checked;
+        $('input[this="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#rgd').click(function() {
+        var checked = this.checked;
+        $('input[rgd="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#dnr').click(function() {
+        var checked = this.checked;
+        $('input[dnr="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#pnbe').click(function() {
+        var checked = this.checked;
+        $('input[pnbe="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ppta').click(function() {
+        var checked = this.checked;
+        $('input[ppta="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ipr').click(function() {
+        var checked = this.checked;
+        $('input[ipr="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#keu').click(function() {
+        var checked = this.checked;
+        $('input[keu="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#mka').click(function() {
+        var checked = this.checked;
+        $('input[mka="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ara').click(function() {
+        var checked = this.checked;
+        $('input[ara="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    
+});
+
+
+                                </script>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- <center><u><h2>Sub Type Lists</h2></u></center>
+
+{% for sub_type in sub_type %}
+<a href="/cmm/all_sub_complain_train/{{sub_type}}/"><button class="btn btn-dark mx-1 my-2">{{sub_type}}</button></a>
+{% endfor %} -->
+        {% endblock %}

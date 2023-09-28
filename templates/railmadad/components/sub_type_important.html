@@ -1,0 +1,36 @@
+{% load customrailmadad %}
+<div class="form-check my-3 ">
+    <h4 class="lead">
+        <b>Select important Sub Types in:</b>
+    </h4>
+    <div class="d-flex justify-content-center align-items-center ">
+        {% for category in important_subtype_categories %}
+            <div class="m-1">
+                {% if post and category in check_type %}
+                    <input this="true"
+                           type="checkbox"
+                           name="check-type"
+                           id="{{ category }}"
+                           value="{{ category }}"
+                           checked>
+                {% else %}
+                    <input this="true"
+                           type="checkbox"
+                           name="check-type"
+                           id="{{ category }}"
+                           value="{{ category }}">
+                {% endif %}
+                {% if category == 'all' %}
+                    <label class="mr-3">
+                        <h5>Select All</h5>
+                    </label>
+                    <br>
+                {% else %}
+                    <label class="mr-3">
+                        <p class="lead">{{ category }}</p>
+                    </label>
+                    <br>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>

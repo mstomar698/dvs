@@ -1,0 +1,216 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block title %}Summary Table{% endblock %}
+{% block breadcrum %}
+    <li class="breadcrumb-item">
+        <a href="/"> <i class="fa fa-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">See The Data</li>
+{% endblock %}
+{% block body %}
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css" /> -->
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  .dataTable thead{
+    background-color: white !important;
+  }
+  .dataTable .odd{
+    background-color:#d7dcde !important;
+  }
+  .dataTable tr{
+    border-style: none !important;
+    border-color: rgba(0,0,0,.05) !important;
+  }
+  .dataTable tr th, .dataTable tr td{
+    padding: 12px !important;
+    border-width: 1px !important;
+  }
+  .dataTable thead tr th{
+    border-top: solid 2px black;
+  }
+  .dataTables_wrapper {
+    margin: 10px 20px !important;
+  }
+
+    </style>
+    <form action="/railmadad/coach_summary_table/" method="POST">
+        {% csrf_token %}
+        <!-- {% include 'railmadad/components/complain_type_comp.html' %}  -->
+        {% include 'railmadad/components/coach_number_chk.html' %}
+        <br />
+        {% include 'railmadad/components/date_range_comp.html' %}
+    </form>
+    <div class="table-responsive my-3">
+        {% if post %}
+            <table class="table" id="table1">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Coach Number
+                            <!-- <i class="fa fa-sort"></i> -->
+                        </th>
+                        {% for c in complain_type %}<th scope="col">{{ c }}</th>{% endfor %}
+                        <th scope="col">Total Complain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in total %}
+                        <tr>
+                            <th scope="row">
+                                <a target="blank"
+                                   href="/railmadad/complain/{{ physical_coach_number_list|index:forloop.counter }}/{{ start_date }}/{{ end_date }}?complain_type={{ complain_type | join:'--' }}&train_number=&physical_coach_number={{ physical_coach_number_list|index:forloop.counter }}"
+                                   style="color: blue;
+                                          text-decoration: none">{{ physical_coach_number_list|index:forloop.counter }}</a>
+                            </th>
+                            {% for h in complain_type %}<td scope="row">{{ t|index:forloop.counter }}</td>{% endfor %}
+                            <th scope="row">
+                                <a target="blank"
+                                   href="/railmadad/complain/{{ physical_coach_number_list|index:forloop.counter }}/{{ start_date }}/{{ end_date }}?complain_type={{ complain_type | join:'--' }}&train_number=&physical_coach_number={{ physical_coach_number_list|index:forloop.counter }}"
+                                   style="color: blue;
+                                          text-decoration: none"><b>{{ total_complain|index:forloop.counter }}</b></a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <br />
+            <center>
+                <h2>
+                    <u>Select Filter to See Table</u>
+                </h2>
+            </center>
+        {% endif %}
+    </div>
+    <div class="container"></div>
+    <script>
+  function myFunction() {
+    var dots = document.getElementById("dots");
+    var moreText = document.getElementById("more");
+    var btnText = document.getElementById("myBtn");
+
+    if (dots.style.display === "none") {
+      dots.style.display = "inline";
+      btnText.innerHTML = "Show more";
+      moreText.style.display = "none";
+    } else {
+      dots.style.display = "none";
+      btnText.innerHTML = "Show less";
+      moreText.style.display = "inline";
+    }
+  }
+
+  $(document).ready(function () {
+    $("#select-all-2").click(function () {
+      var checked = this.checked;
+      $('input[complain="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#select-critical").click(function () {
+      var checked = this.checked;
+      $('input[critical="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#rncc").click(function () {
+      var checked = this.checked;
+      $('input[rncc="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+    $("#all").click(function () {
+      var checked = this.checked;
+      $('input[this="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+    $("#rgd").click(function () {
+      var checked = this.checked;
+      $('input[rgd="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#dnr").click(function () {
+      var checked = this.checked;
+      $('input[dnr="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#pnbe").click(function () {
+      var checked = this.checked;
+      $('input[pnbe="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ppta").click(function () {
+      var checked = this.checked;
+      $('input[ppta="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ipr").click(function () {
+      var checked = this.checked;
+      $('input[ipr="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#keu").click(function () {
+      var checked = this.checked;
+      $('input[keu="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#mka").click(function () {
+      var checked = this.checked;
+      $('input[mka="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ara").click(function () {
+      var checked = this.checked;
+      $('input[ara="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+  });
+    </script>
+{% endblock %}
+{% block js %}
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script>
+  $(document).ready(function () {
+    $("#table1").DataTable({
+      search: {
+        return: true,
+      },
+      dom: "Bfrtip",
+      buttons: ["csv", "excel", 'pageLength'],
+      "pageLength": 50,
+    });
+  });
+    </script>
+{% endblock js %}

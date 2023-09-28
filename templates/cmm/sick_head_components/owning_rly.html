@@ -1,0 +1,28 @@
+{% load customcmm %}
+{% block body %}
+    {% load static %}
+    <div class="d-flex justify-content-center align-items-center "
+         style="margin-top: auto;
+                margin-bottom: auto">
+        <select id="owning-rly-dropdown"
+                name="owning-rly-dropdown"
+                multiple
+                placeholder="Select owning railway"
+                multiple>
+            {% for rly in owning_rly %}<option value="{{ rly }}">{{ rly }}</option>{% endfor %}
+        </select>
+    </div>
+    <script type="text/javascript"
+            src="{% static 'assets/js/virtual-select/virtual-select.min.js' %}"></script>
+    <script type="text/javascript">
+    VirtualSelect.init({
+      ele: '#owning-rly-dropdown',
+      search: true,
+      optionSelectedText: 'option selected',
+      noOfDisplayValues: 1,
+      alwaysShowSelectedOptionsCount: true,
+      optionsCount: 7,
+      showSelectedOptionsFirst: true,
+    });
+    </script>
+{% endblock %}

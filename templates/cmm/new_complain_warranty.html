@@ -1,0 +1,332 @@
+{% extends 'cmm/base.html' %}
+{% load customcmm %}
+{% block url_name %}Data Based on Complaint Type{% endblock %}
+{% block url_title %}Complaint Type{% endblock %}
+{% block breadcrum %}
+    <li class="breadcrumb-item">
+        <a href="/">
+            <i class="fa fa-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">See The Data for Complaint Type</li>
+    <li class="breadcrumb-item">Data Based on Complaint Type</li>
+{% endblock %}
+{% block title %}Data Based on Complaint Type{% endblock %}
+{% block body %}
+    <style>
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    /* color: rgb(0, 0, 0); */
+    text-decoration: none;
+  }
+
+  th a,
+  td a {
+    display: block;
+    width: 100%;
+  }
+
+  th a.sort-by {
+    padding-right: 18px;
+    position: relative;
+  }
+
+  th a.sort-by:hover {
+    color: rgb(0, 84, 87);
+  }
+
+  a.sort-by:before,
+  a.sort-by:after {
+    border: 4px solid transparent;
+    content: "";
+    display: block;
+    height: 0;
+    right: 5px;
+    top: 50%;
+    position: absolute;
+    width: 0;
+  }
+
+
+
+  @media (max-width: 991px) {
+    .responsive>thead th {
+      display: none;
+    }
+
+    .responsive>tbody td,
+    .responsive>tbody th {
+      display: block;
+    }
+
+    .responsive>tbody>tr:nth-child(even) td,
+    .responsive>tbody>tr:nth-child(even) th {
+      background-color: #eee;
+    }
+
+    [row-header] {
+      position: relative;
+      width: 50%;
+      vertical-align: middle;
+    }
+
+    [row-header]:before {
+      content: attr(row-header);
+      display: inline-block;
+      vertical-align: middle;
+      text-align: left;
+      width: 50%;
+      padding-right: 30px;
+    }
+  }
+    </style>
+    <div class="table-responsive container-fluid">
+        {% for message in messages %}
+            <div id="alert" class="alert alert-{{ message.tags }}">{{ message }}</div>
+            <script type="text/javascript">
+    setTimeout(function () {
+      $('#alert').alert('close');
+    }, 4000);
+            </script>
+        {% endfor %}
+        <!-- <h1>Data: {{data}}</h1> -->
+        <table id="table"
+               class="table table-striped table-bordered table-sm"
+               cellspacing="0"
+               width="100%">
+            <thead>
+                <center class="my-2">
+                    <h5>
+                        <u>Fetched {{ res_count }} data rows from table.</u>
+                    </h5>
+                    <form class="my-3"
+                          action="/cmm/new_complain_warranty/{{ complain }}/{{ complain_start }}/{{ complain_end }}"
+                          method="get">
+                        <select class="p-1" name="search_param" id="search_param" required>
+                            {% if search_param == '' or search_param == None %}
+                                <option value="" disabled="disabled" selected>Select parameter to search</option>
+                            {% else %}
+                                <option value="" disabled="disabled" selected>Select parameter to search</option>
+                            {% endif %}
+                            {% if search_param == 'id' %}
+                                <option value="id" selected>Id</option>
+                            {% else %}
+                                <option value="id">Id</option>
+                            {% endif %}
+                            {% if search_param == 'sl_no' %}
+                                <option value="sl_no" selected>Sl No.</option>
+                            {% else %}
+                                <option value="sl_no">Sl No.</option>
+                            {% endif %}
+                            {% if search_param == 'complaint_id' %}
+                                <option value="complaint_id" selected>Complaint Id</option>
+                            {% else %}
+                                <option value="complaint_id">Complaint Id</option>
+                            {% endif %}
+                            {% if search_param == 'coach_number' %}
+                                <option value="coach_number" selected>Coach Number</option>
+                            {% else %}
+                                <option value="coach_number">Coach Number</option>
+                            {% endif %}
+                            {% if search_param == 'failed_assembly' %}
+                                <option value="failed_assembly" selected>Failed Assembly</option>
+                            {% else %}
+                                <option value="failed_assembly">Failed Assembly</option>
+                            {% endif %}
+                        </select>
+                        {% if query %}
+                            <input class="mx-3 py-1 rounded"
+                                   type="search"
+                                   name="query"
+                                   id="query-field"
+                                   placeholder="Seach Table"
+                                   value="{{ query }}">
+                        {% else %}
+                            <input class="mx-3 py-1 rounded"
+                                   type="search"
+                                   name="query"
+                                   id="query-field"
+                                   placeholder="Seach Table"
+                                   required>
+                        {% endif %}
+                        <input type="hidden"
+                               name="failed_assembly"
+                               value="{{ failed_data | join:'---' }}">
+                        <input type="hidden"
+                               name="complaint_id"
+                               value="{{ complaint_data | join:'-' }}">
+                        <input type="hidden" name="sort_method" value="id">
+                        <input type="hidden" name="order" value="{{ order }}">
+                        <input class="btn btn-danger btn-sm" type="submit" value="Search">
+                    </form>
+                    <br>
+                    <button class="btn btn-danger my-2 download-button" id="download-button">Download Data</button>
+                </center>
+            </thead>
+            <thead>
+                <tr>
+                    <th class="col" column="1">
+                    Sr. No.</a>
+                </th>
+                <th class="col" column="2">
+                    <a href='/cmm/new_complain_warranty/{{ complain }}/{{ complain_start }}/{{ complain_end }}?failed_assembly={{ failed_data | join:"---" }}&complaint_id={{ complaint_data | join:"-" }}&sort_method=id&order={{ order }}&query={{ query }}'
+                       class="sort-by">Id</a>
+                </th>
+                <th class="col" column="11">
+                    <a href='/cmm/new_complain_warranty/{{ complain }}/{{ complain_start }}/{{ complain_end }}?failed_assembly={{ failed_data | join:"---" }}&complaint_id={{ complaint_data | join:"-" }}&sort_method=sl_no&order={{ order }}&query={{ query }}'
+                       class="sort-by">Sl No.</a>
+                </th>
+                <th class="col" column="3">Owning Rly</th>
+                <th class="col" column="3">
+                    <a href='/cmm/new_complain_warranty/{{ complain }}/{{ complain_start }}/{{ complain_end }}?failed_assembly={{ failed_data | join:"---" }}&complaint_id={{ complaint_data | join:"-" }}&sort_method=coach_number&order={{ order }}&query={{ query }}'
+                       class="sort-by">Coach Number</a>
+                </th>
+                <th class="col" column="3">
+                    <a href='/cmm/new_complain_warranty/{{ complain }}/{{ complain_start }}/{{ complain_end }}?failed_assembly={{ failed_data | join:"---" }}&complaint_id={{ complaint_data | join:"-" }}&sort_method=failed_assembly&order={{ order }}&query={{ query }}'
+                       class="sort-by">Failed Assembly</a>
+                </th>
+                <th class="col" column="3">Coach Type</th>
+                <th class="col" column="3">
+                    <a href='/cmm/new_complain_warranty/{{ complain }}/{{ complain_start }}/{{ complain_end }}?failed_assembly={{ failed_data | join:"---" }}&complaint_id={{ complaint_data | join:"-" }}&sort_method=complaint_id&order={{ order }}&query={{ query }}'
+                       class="sort-by">Complaint Id</a>
+                </th>
+                <th class="col" column="3">Complain By Zone</th>
+                <th class="col" column="3">Complain By Division</th>
+                <th class="col" column="3">Complain By Depot</th>
+                <th class="col" column="3">Consignee Code</th>
+                <th class="col" column="3">Complainant To</th>
+                <th class="col" column="3">Assembly manufacture</th>
+                <th class="col" column="3">Assembly  SRno</th>
+                <th class="col" column="3">Assembly  PLno</th>
+                <th class="col" column="3">Assembly manufacture date</th>
+                <th class="col" column="3">Failure Date</th>
+                <th class="col" column="3">Failure Desc</th>
+                <th class="col" column="3">Complain Date</th>
+                <th class="col" column="3">Complain Status</th>
+                <th class="col" column="3">Contact Number of Complainant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ d.id }}</td>
+                    <td>{{ d.sl_no|convertint }}</td>
+                    <td>{{ d.owning_rly }}</td>
+                    <td>
+                        {% if d.coach_number == '' or d.coach_number == None %}
+                            N/A
+                        {% else %}
+                            {{ d.coach_number|convertint }}
+                        {% endif %}
+                    </td>
+                    <td>{{ d.failed_assembly }}</td>
+                    <td>{{ d.coach_type }}</td>
+                    {% if d.complaint_id == '' or d.complaint_id == None %}
+                        <td>N/A</td>
+                    {% else %}
+                        <td>{{ d.complaint_id|convertint }}</td>
+                    {% endif %}
+                    <td>{{ d.complain_by_zone }}</td>
+                    <td>{{ d.complain_by_division }}</td>
+                    <td>{{ d.complain_by_depot }}</td>
+                    <td>{{ d.consignee_code }}</td>
+                    <td>{{ d.complaint_to }}</td>
+                    <td>{{ d.assembly_manufacture }}</td>
+                    <td>{{ d.assembly_srno }}</td>
+                    <td>{{ d.assembly_plno }}</td>
+                    <td>{{ d.assembly_mfg_date }}</td>
+                    <td>{{ d.failure_date }}</td>
+                    <td>{{ d.failure_description }}</td>
+                    <td>{{ d.complain_date }}</td>
+                    <td>{{ d.complain_status }}</td>
+                    <td>{{ d.complain_by_mobile }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+
+  document.getElementById("download-button").addEventListener("click", function () {
+    console.log("clicked")
+    var html = document.querySelector("table").outerHTML;
+    htmlToCSV(html, "data.csv");
+    // document.getElementById("download-button").innerText = "Downloading..."
+  });
+  function htmlToCSV(html, filename) {
+    var data = [];
+    var rows = document.querySelectorAll("table tr");
+    for (var i = 0; i < rows.length; i++) {
+      var row = [], cols = rows[i].querySelectorAll("td, th");
+      for (var j = 0; j < cols.length; j++) {
+        console.log(cols[j].innerText);
+        row.push(cols[j].innerText);
+      }
+      // console.log(row);
+      data.push(row.join("---").replaceAll(",", " ").split("---").join(", "));
+      // console.log("Row after transformation: ");
+      // console.log(row);
+      // console.log(data)
+    }
+
+    downloadCSVFile(data.join("\n"), filename);
+
+  }
+
+  function downloadCSVFile(csv, filename) {
+    var csv_file, download_link;
+    csv_file = new Blob([csv], { type: "text/csv" });
+    download_link = document.createElement("a");
+    download_link.download = filename;
+    download_link.href = window.URL.createObjectURL(csv_file);
+    download_link.style.display = "none";
+    document.body.appendChild(download_link);
+    download_link.click();
+    // document.getElementById("download-button").innerText = "Download"
+
+    
+
+  }
+
+
+</script>
+{% if order == 'asc' %}
+    <style>
+  a.sort-by:before {
+    border-bottom-color: rgb(0, 0, 0);
+    margin-top: -9px;
+  }
+
+  a.sort-by:after {
+    border-top-color: #666;
+    margin-top: 1px;
+  }
+    </style>
+{% elif order == 'desc' %}
+    <style>
+  a.sort-by:before {
+    border-bottom-color: #666;
+    margin-top: -9px;
+  }
+
+  a.sort-by:after {
+    border-top-color: rgb(0, 0, 0);
+    margin-top: 1px;
+  }
+    </style>
+{% else %}
+    <style>
+  a.sort-by:before {
+    border-bottom-color: #666;
+    margin-top: -9px;
+  }
+
+  a.sort-by:after {
+    border-top-color: #666;
+    margin-top: 1px;
+  }
+    </style>
+{% endif %}
+{% endblock %}

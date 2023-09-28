@@ -1,0 +1,224 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>#more {display: none;}</style>
+    <form action="/railmadad/min_complain_train/" method="POST">
+        {% csrf_token %}
+        <center>
+            <div class="form-check">
+                {% include 'railmadad/components/train_category_comp.html' %}
+                <script>
+function myFunction() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Show more"; 
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Show less"; 
+    moreText.style.display = "inline";
+  }
+}
+                </script>
+                <center>
+                    <div class="form-check">{% include 'railmadad/components/complain_type_comp.html' %}</div>
+                </center>
+                <center class="center">
+                    {% include 'railmadad/components/date_range_comp.html' %}
+                </center>
+            </form>
+            <div class="col-xl-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Railway Data</h4>
+                        <span class="text-muted">This is Graph Show for Railway</span>
+                    </div>
+                    <div class="card-blockk">
+                        <div id="sales-analytics" style="height:100%;">
+                            <div class="chart-container">
+                                <center>
+                                    <h4>
+                                        <u>Data Show Graph For Minimum Complain from Each Complain Type</b></u>
+                                    </h4>
+                                </center>
+                                <div class="container-fluid d-flex justify-content-center my-3">
+                                    <button onClick="download()" class="btn btn-success btn-sm">Download Data-Graph</button>
+                                </div>
+                                <canvas id="myChart" height="40px" width="100%"></canvas>
+                                <script>
+var canvasP = document.getElementById("myChart");
+var ctxP = canvasP.getContext('2d');
+var labelData = [{% for t in total %}'{{t.1}}-({{t.2}})',{% endfor %}];
+var totalData = [{% for t in total %} {{t.0}}, {% endfor %}];
+var chartData = new Array();
+var chartLabel = new Array();
+var dataMap = new Object();
+
+for(let i = 0;i < totalData.length; i++)
+{
+    dataMap[labelData[i]] = totalData[i];
+}
+
+var Ent = Object.entries(dataMap).sort((a, b) => {
+    return a[1] < b[1]
+})
+
+for(let i = 0; i < Ent.length; i++)
+{
+    chartLabel[i] = Ent[i][0];
+    chartData[i] = Ent[i][1];
+}
+
+var myPieChart = new Chart(ctxP, {
+   type: 'bar',
+   data: {
+      labels: chartLabel,
+      datasets: [
+        {   
+            label:'Minimum Number',
+            data: chartData,
+            backgroundColor: ["#FF3838", "#C3792B", "#2196F3", "#A70101", "#36A701", "#0148A7", "#2BC3BA","#8C006C","#828C00","#00838C"],
+            hoverBackgroundColor: ["#FF3838", "#C3792B", "#2196F3", "#A70101", "#36A701", "#0148A7", "#2BC3BA","#8C006C","#828C00","#00838C"]
+       }]
+   },
+   options: {
+    legend: {
+         display: true,
+         position: "top"
+      },
+      scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+      }
+
+}
+});
+
+canvasP.onclick = function(e) {
+   var slice = myPieChart.getElementAtEvent(e);
+   if (!slice.length) return; // return if not clicked on slice
+   var label = slice[0]._model.label;
+   switch (label) {
+      // add case for each label/slice
+      {% for t in total %}
+      case '{{t.1}}-({{t.2}})':
+         window.open('/railmadad/complain/{{t.1}}/{{start_date}}/{{end_date}}?complain_type={{t.2}}&train_number={{t.1}}&physical_coach_number=');
+         break;
+      {% endfor %}
+   }
+}
+
+$(document).ready(function() {
+    $('#select-all-2').click(function() {
+        var checked = this.checked;
+        $('input[complain="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+
+    $('#select-critical').click(function() {
+        var checked = this.checked;
+        $('input[critical="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#rncc').click(function() {
+        var checked = this.checked;
+        $('input[rncc="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#all').click(function() {
+        var checked = this.checked;
+        $('input[this="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#rgd').click(function() {
+        var checked = this.checked;
+        $('input[rgd="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#dnr').click(function() {
+        var checked = this.checked;
+        $('input[dnr="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#pnbe').click(function() {
+        var checked = this.checked;
+        $('input[pnbe="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ppta').click(function() {
+        var checked = this.checked;
+        $('input[ppta="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ipr').click(function() {
+        var checked = this.checked;
+        $('input[ipr="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#keu').click(function() {
+        var checked = this.checked;
+        $('input[keu="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#mka').click(function() {
+        var checked = this.checked;
+        $('input[mka="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ara').click(function() {
+        var checked = this.checked;
+        $('input[ara="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    
+});
+
+function download() {
+            const imageLink = document.createElement('a');
+            const canvas = document.getElementById('myChart');
+            imageLink.download = 'Data.png'
+            imageLink.href = canvas.toDataURL('static/data/canvas', 1);
+            // window.open(imageLink);
+            // document.write('<img src=" '+imageLink+' " />')
+
+            // console.log(imageLink.href);
+            imageLink.click();
+          }
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}

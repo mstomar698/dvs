@@ -1,0 +1,26 @@
+{% load customcmm %}
+{% load static %}
+<div class="d-flex justify-content-center align-items-center "
+     style="margin-top: auto;
+            margin-bottom: auto">
+    <select id="workshops-dropdown"
+            name="workshops-dropdown"
+            multiple
+            placeholder="Select workshops"
+            multiple>
+        {% for workshop in workshops %}<option value="{{ workshop }}">{{ workshop }}</option>{% endfor %}
+    </select>
+</div>
+<script type="text/javascript"
+        src="{% static 'assets/js/virtual-select/virtual-select.min.js' %}"></script>
+<script type="text/javascript">
+    VirtualSelect.init({
+      ele: '#workshops-dropdown',
+      search: true,
+      optionSelectedText: 'option selected',
+      noOfDisplayValues: 1,
+      alwaysShowSelectedOptionsCount: true,
+      optionsCount: 7,
+      showSelectedOptionsFirst: true,
+    });
+</script>

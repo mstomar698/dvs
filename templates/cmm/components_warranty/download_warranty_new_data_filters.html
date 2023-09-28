@@ -1,0 +1,104 @@
+{% load customcmm %}
+{% block body %}
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+        /* For desktop and larger devices */
+        .filters-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+        .sort-download-warranty .vscomp-ele{
+            max-width: 270px !important;
+        }
+        
+        /* For tablets and smaller devices */
+        /* @media (max-width: 991px) {
+            .filter-container {
+                flex-basis: calc(50% - 20px);
+            }
+        } */
+        
+        /* For mobile devices */
+        /* @media (max-width: 767px) {
+            .filter-container {
+                flex-basis: 100%;
+            }
+        } */
+        </style>
+    </head>
+    <form id="myForm"
+          action="{% url 'download_warranty_helper_new' %}"
+          method="post">
+        {% csrf_token %}
+        <div class=" container alert alert-info">
+            <center>
+                Please select all filters to download data.
+            </center>
+        </div>
+        <div id="all-filters">
+            <div class="filters-container">
+                <div class="filter-container" style=" width: 270px; margin-top: 10px;">
+                    {% include 'cmm/components_warranty/complain_id.html' %}
+                </div>
+                <div class="filter-container" style="margin-top: 10px;">{% include 'cmm/components_warranty/coach_num.html' %}</div>
+                <div class="filter-container" style="margin-top: 10px;">
+                    {% include 'cmm/components_warranty/failed_assembly.html' %}
+                </div>
+            </div>
+            <br />
+            <div style="width: 270px;
+                        margin: auto;
+                        height: 50px;
+                        margin-bottom: 10px"
+                 class="sort-download-warranty">{% include 'cmm/components_warranty/sort_filter.html' %}</div>
+        </div>
+        <center class="my-3">
+            <button type="submit" class="btn btn-danger">Download</button>
+        </center>
+        <hr>
+    </form>
+    <center>
+        <button class="btn-dark btn show-btn " id="show-filters">Hide Filters</button>
+    </center>
+    <script>
+    $(document).ready(function() {
+        $('#myForm').submit(function(event) {
+            event.preventDefault(); 
+
+
+            var selectedValues = $('#failed-assemblys-dropdown').val();
+
+            
+            $.each(selectedValues, function(index, value) {
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'selectedValues',
+                value: value
+            }).appendTo('#myForm');
+            });
+
+            this.submit();
+        });
+    });
+        $(document).ready(function () {
+            $("#show-filters").click(function () {
+                $("#all-filters").fadeToggle();
+                if ($("#show-filters").text() == "Show Filters") {
+                    $("#show-filters").text("Hide Filters");
+                } else {
+                    $("#show-filters").text("Show Filters");
+                }
+                
+            });
+        })
+
+        var inputs = document.getElementsByClassName("vscomp-search-input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].placeholder = "select all, type here to search";
+        }
+    </script>
+{% endblock %}

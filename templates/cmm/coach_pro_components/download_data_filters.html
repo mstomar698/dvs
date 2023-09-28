@@ -1,0 +1,43 @@
+{% load customcmm %}
+{% block body %}
+    <form action="/cmm/download_helper/" method="post">
+        {% csrf_token %}
+        <div class=" container alert alert-info">
+            <center>
+                Please select all filters to download data.
+            </center>
+        </div>
+        <div id="all-filters">
+            {% include 'components/train_numbers.html' %}
+            {% include 'components/coach_type.html' %}
+            {% include 'components/coach_numbers.html' %}
+            {% include 'components/sick_heads.html' %}
+            {% include 'components/owning_rly.html' %}
+            {% include 'components/coach_status.html' %}
+            {% include 'components/department.html' %}
+            {% include 'components/vehicle_type.html' %}
+            {% include 'components/workshop.html' %}
+            {% include 'components/date_filters.html' %}
+        </div>
+        <center class="my-3">
+            <button type="submit" class="btn btn-danger">Download</button>
+        </center>
+        <hr>
+    </form>
+    <center>
+        <button class="btn-dark btn show-btn " id="show-filters">Hide Filters</button>
+    </center>
+    <script>
+        $(document).ready(function () {
+            $("#show-filters").click(function () {
+                $("#all-filters").fadeToggle();
+                if ($("#show-filters").text() == "Show Filters") {
+                    $("#show-filters").text("Hide Filters");
+                } else {
+                    $("#show-filters").text("Show Filters");
+                }
+                
+            });
+        })
+    </script>
+{% endblock %}

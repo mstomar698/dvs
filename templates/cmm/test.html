@@ -1,0 +1,331 @@
+{% extends 'cmm/base.html' %}
+{% load customcmm %}
+{% block body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+$(document).ready(function() {
+    $('#rncc').click(function() {
+        var checked = this.checked;
+        $('input[rncc="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#select-all').click(function() {
+        var checked = this.checked;
+        $('input[this="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#rgd').click(function() {
+        var checked = this.checked;
+        $('input[rgd="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+});
+    </script>
+    <style>#more {display: none;}</style>
+    <script>
+$(document).ready(function() {
+    $('#select-all-2').click(function() {
+        var checked = this.checked;
+        $('input[that="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#select-critical').click(function() {
+        var checked = this.checked;
+        $('input[critical="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+});
+    </script>
+    <form action="/cmm/mix_chart/" method="POST">
+        {% csrf_token %}
+        <center>
+            <div class="form-check">
+                <input type="checkbox" id="select-all">
+                <label style="margin-right:12px">
+                    <h5>Select All</h5>
+                </label>
+                <input type="checkbox" id="rncc" this="true">
+                <label style="margin-right:12px">
+                    <h5>RNCC</h5>
+                </label>
+                <input type="checkbox" id="rgd" this="true">
+                <label style="margin-right:12px">
+                    <h5>RGD</h5>
+                </label>
+                <br>
+                <span id="dots"></span><span id="more">
+                    {% for train_number in main_train %}
+                        {% if train_number|convertint in rncc %}
+                            <input type="checkbox"
+                                   name="train_number"
+                                   class="check-box"
+                                   value="{{ train_number|convertint }}"
+                                   rncc="true"
+                                   this="true">
+                        {% elif train_number|convertint in rgd %}
+                            <input type="checkbox"
+                                   name="train_number"
+                                   class="check-box"
+                                   value="{{ train_number|convertint }}"
+                                   rgd="true"
+                                   this="true">
+                        {% else %}
+                            <input type="checkbox"
+                                   name="train_number"
+                                   class="check-box"
+                                   value="{{ train_number|convertint }}"
+                                   this="true">
+                        {% endif %}
+                        <label>{{ train_number|convertint }}&nbsp;&nbsp;</label>
+                    {% endfor %}
+                </div>
+            </center>
+        </span>
+        <center>
+            <button onclick="myFunction()" id="myBtn" type="button">Show more</button>
+        </center>
+        <br>
+        <script>
+function myFunction() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Show more"; 
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Show less"; 
+    moreText.style.display = "inline";
+  }
+}
+        </script>
+        <center>
+            <div class="form-check">
+                <div class="select-type d-flex justify-content-center">
+                    <div class="select-all">
+                        <label>
+                            <h5>Select All</h5>
+                        </label>
+                        <input type="checkbox" id="select-all-2">
+                        <br>
+                    </div>
+                    <div class="select-critical mx-3">
+                        <label>
+                            <h5>Select Critical</h5>
+                        </label>
+                        <input type="checkbox" id="select-critical" that="true">
+                        <br>
+                    </div>
+                </div>
+                {% for all_t in all_type %}
+                    {% if all_t in critical_type %}
+                        <input type="checkbox"
+                               name="complain_type"
+                               class="check-box"
+                               value="{{ all_t }}"
+                               critical="true"
+                               that="true">
+                    {% else %}
+                        <input type="checkbox"
+                               name="complain_type"
+                               class="check-box"
+                               value="{{ all_t }}"
+                               critical="false"
+                               that="true">
+                    {% endif %}
+                    <label>{{ all_t }}&nbsp;&nbsp;</label>
+                {% endfor %}
+            </div>
+        </center>
+        <style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+        </style>
+        <center class="center">
+            {% if post %}
+                <label for="start_date">
+                    <b>From:</b>
+                </label>
+                <input id="start-date"
+                       type="date"
+                       name="start_date"
+                       value="{{ start_date }}"
+                       required>
+                <label for="end_date">
+                    <b>To:</b>
+                </label>
+                <input id="end-date"
+                       type="date"
+                       name="end_date"
+                       value="{{ end_date }}"
+                       required>
+            {% else %}
+                <label for="start_date">
+                    <b>From:</b>
+                </label>
+                <input id = "start-date" type="date" name="start_date" required>
+                <label for="end_date">
+                    <b>To:</b>
+                </label>
+                <input id="end-date" type="date" name="end_date" required>
+            {% endif %}
+            <button type="submit" class="btn btn-danger">Submit</button>
+        </center>
+    </form>
+    <br>
+    <div class="col-xl-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Railway Data</h4>
+                <span class="text-muted">This is Graph Show for Railway</span>
+            </div>
+            <div class="card-blockk">
+                <div id="sales-analytics" style="height:100%;">
+                    <div class="chart-container">
+                        {% if train_count > total_entries %}
+                            <center>
+                                <h4>
+                                    <u>There are maximum {{ total_entries }} Data entries. Showing data for {{ total_entries }} entries.</u>
+                                </h4>
+                            </center>
+                        {% else %}
+                            <center>
+                                <h4>
+                                    <u>Data Show Graph For Bottom {{ train_count }} Train Number Complaint Wise</u>
+                                </h4>
+                            </center>
+                        {% endif %}
+                        <button onClick="download()">Download Data-Graph</button>
+                        <canvas id="myStackedChart" width="100px" height="40px"></canvas>
+                        <style>
+* {font-family: sans-serif;}
+canvas {
+background: #f6fafd; /* Old browsers */
+background: -moz-linear-gradient(top, #f6fafd 0%, #cbdff2 73%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #f6fafd 0%,#cbdff2 73%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #f6fafd 0%,#cbdff2 73%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6fafd', endColorstr='#cbdff2',GradientType=0 ); /* IE6-9 */
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+}
+                        </style>
+                        <script>
+// JavaScript source code
+// Return with commas in between
+var numberWithCommas = function (x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+//biomass annual cost
+
+{% for t in total %}
+var dataPack{{forloop.counter}} = {{t}};
+{% endfor %}
+var dates = [{% for b_t in bottom_train %} "{{b_t|convertint}}", {% endfor %}];
+
+var bar_ctx = document.getElementById('myStackedChart');
+var ctxP = bar_ctx.getContext('2d');
+var bar_chart = new Chart(ctxP, {
+    type: 'bar',
+    data: {
+        labels: dates,
+        datasets: [
+        {% for t in total %}
+            {
+              {% if not post %}
+                label: '{{ all_type|index:forloop.counter }}',
+                data: dataPack{{forloop.counter}},
+                backgroundColor: "{{color_code|index:forloop.counter}}",
+                hoverBackgroundColor: "{{color_code|index:forloop.counter}}",
+                hoverBorderWidth: 2,
+                hoverBorderColor:'white'
+              {% else %}
+              label: '{{ complain_type|index:forloop.counter }}',
+              data: dataPack{{forloop.counter}},
+              backgroundColor: "{{color_code|index:forloop.counter}}",
+              hoverBackgroundColor: "{{color_code|index:forloop.counter}}",
+              hoverBorderWidth: 2,
+              hoverBorderColor:'white'
+              {% endif %}
+            },
+        {% endfor %}
+            
+        ]
+    },
+    options: {
+        animation: {
+            duration: 10,
+        },
+        tooltips: {
+            mode: 'label',
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                stacked: true,
+                gridLines: { display: false },
+            }],
+            yAxes: [{
+                stacked: true,
+                ticks: {
+                    callback: function (value) { return numberWithCommas(value); },
+                },
+            }],
+        }, // scales
+        legend: { display: true }
+    } // options
+}
+);
+
+bar_ctx.onclick = function(e) {
+   var slice = bar_chart.getElementAtEvent(e);
+   if (!slice.length) return; // return if not clicked on slice
+   var label = slice[0]._model.label;
+   switch (label) {
+    {% for b_t in bottom_train %}
+      case '{{b_t}}':
+         window.open('/cmm/complain/{{b_t}}');
+         break;
+    {% endfor %}
+   }
+}
+
+
+function download(){
+  const imageLink = document.createElement('a');
+  const canvas = document.getElementById('myStackedChart');
+  imageLink.download = 'Data.png'
+  imageLink.href = canvas.toDataURL('media/data/canvas',1);
+  // window.open(imageLink);
+  // document.write('<img src=" '+imageLink+' " />')
+
+  // console.log(imageLink.href);
+  imageLink.click();
+}
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    (12090, None, None, 2022090104712.0, datetime.datetime(2022, 9, 1, 15, 52, tzinfo=datetime.timezone.utc), datetime.datetime(2022, 9, 1, 16, 12, tzinfo=datetime.timezone.utc), '0:19', None, 13287.0, None, 'H', None, 151545.0, None, '', 'Coach - Cleanliness', 'Coach Interior', 'nan', 'EC', 'DNR', 'CNW', 'No', 'Unsatisfactory', 'Closed', 'caller name : pitamber kumar, inka kahna h ki coach me safai nahi h', 'Your inconvenience is deeply regretted. On board staff will be rectified the complaint.  Wish you very happy journey, Sir.', None, '6608396460', '3A', None, None, '68', 'I m not satisfied very bad that Indian railway closing my concern without any conclusions', 'BBM', '8336910953', None, 'DURG-RJPB SOUTH BIHAR EXP')

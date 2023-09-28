@@ -1,0 +1,28 @@
+{% load customcmm %}
+{% block body %}
+    {% load static %}
+    <div class="d-flex justify-content-center align-items-center "
+         style="margin-top: auto;
+                margin-bottom: auto">
+        <select id="coach-type-dropdown"
+                name="coach-type-dropdown"
+                multiple
+                placeholder="Select coach type"
+                multiple>
+            {% for type in coach_type %}<option value="{{ type }}">{{ type }}</option>{% endfor %}
+        </select>
+    </div>
+    <script type="text/javascript"
+            src="{% static 'assets/js/virtual-select/virtual-select.min.js' %}"></script>
+    <script type="text/javascript">
+    VirtualSelect.init({
+      ele: '#coach-type-dropdown',
+      search: true,
+      optionSelectedText: 'option selected',
+      noOfDisplayValues: 1,
+      alwaysShowSelectedOptionsCount: true,
+      optionsCount: 7,
+      showSelectedOptionsFirst: true,
+    });
+    </script>
+{% endblock %}

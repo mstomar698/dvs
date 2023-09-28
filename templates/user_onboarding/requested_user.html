@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% for message in messages %}
+        <div id="alert" class="alert alert-{{ message.tags }}">{{ message }}</div>
+        <script type="text/javascript">
+  setTimeout(function () {
+    $("#alert").alert("close");
+  }, 4000);
+        </script>
+    {% endfor %}
+    <div class="row mx-2" style="height: calc(100vh - 160px);">
+        {% if user_requested %}
+            {% for user in user_requested %}
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">User:- {{ user.user_name }}</h5>
+                            <p class="card-text">Email:- {{ user.user_email }}</p>
+                            <p class="card-text">For Post:- {{ user.for_post }}</p>
+                            <form action="/auth/user_requested/{{ user.id }}/APPROVE/"
+                                  method="POST"
+                                  id="{{ user.id }}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success mt-1">Approve</button>
+                            </form>
+                            <br>
+                            <form action="/auth/user_requested/{{ user.id }}/DENY/"
+                                  method="POST"
+                                  id="{{ user.id }}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Deny</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <center style="margin-top: auto; margin-bottom: auto;">
+                <h3>There is No User Request</h3>
+            </center>
+        {% endif %}
+    {% endblock %}

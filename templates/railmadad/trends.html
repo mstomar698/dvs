@@ -1,0 +1,506 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+  #more {
+    display: none;
+  }
+  .charts-holder {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .card-block {
+    width: 50%;
+  }
+  .date-range-trends{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 1004px) {
+    .charts-holder {
+      flex-flow: column wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-block {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .select-sub-type, .select-complain-type{
+      width: 300px !important;
+    }
+    .form-check{
+      padding: 0px;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .date-range-trends{
+      flex-direction: column;
+    }
+  }
+    </style>
+    <form action="/railmadad/trend/" method="POST">
+        {% csrf_token %}
+        {% include 'railmadad/components/train_category_comp_withoutComplain.html' %}
+        <script>
+    function myFunction() {
+      var dots = document.getElementById("dots");
+      var moreText = document.getElementById("more");
+      var btnText = document.getElementById("myBtn");
+
+      if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "Read more";
+        moreText.style.display = "none";
+      } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "Read less";
+        moreText.style.display = "inline";
+      }
+    }
+        </script>
+        <center class="center">
+            <h5>Filter Data:-</h5>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+        </center>
+        <center class="complain-select">
+            <div class="select-1">
+                <label for="complain-type">
+                    <h5>Select Complain Type:</h5>
+                </label>
+                <select class="select-complain-type"
+                        name="complain-type"
+                        id="complain-type"
+                        onchange="populate(this.id, 'sub-type')">
+                    <option value="" disabled="true" selected="selected">Select Complain Type</option>
+                    {% for complain in complain_types %}
+                        {% if complain_type_val == complain %}
+                            <option value="{{ complain }}" selected="true">{{ complain }}</option>
+                        {% else %}
+                            <option value="{{ complain }}">{{ complain }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="select-2">
+                <label for="sub-type">
+                    <h5>Select Sub Type:</h5>
+                </label>
+                <select name="sub-type" id="sub-type" class="select-sub-type">
+                    <option value="" disabled="true" selected="selected">Select Sub Type</option>
+                </select>
+            </div>
+        </center>
+        <style>
+    #complain-type,
+    #sub-type {
+      width: 30%;
+      padding: 10px;
+      margin-bottom: 5px;
+    }
+    .chartBox{
+    display: flex;
+    width: 100%;
+    position: relative;
+    bottom: 0px;
+  }
+  .colLarge{
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .box{
+    width: 700px;
+  }
+  
+  @media screen and (max-width: 700px){
+    /* .box{
+      width: 700px;
+    } */
+
+    .form-check{
+    padding: 0px;
+  }
+  }
+        </style>
+        <center class="center date-range-trends">
+            {% comment %} {% if post %} {% endcomment %}
+            <div style="margin: 0px 10px;">
+                <label for="start_date">
+                    <b>From:</b>
+                </label>
+                <input id="start-date"
+                       type="date"
+                       name="start_date"
+                       value="{{ start_date }}"
+                       required />
+            </div>
+            <div style="margin: 0px 10px;">
+                <label for="end_date">
+                    <b>To:</b>
+                </label>
+                <input id="end-date"
+                       type="date"
+                       name="end_date"
+                       value="{{ end_date }}"
+                       required />
+            </div>
+            {% comment %} {% else %}
+    <label for="start_date"><b>From:</b></label>
+    <input id="start-date" type="date" name="start_date" required />
+    <label for="end_date"><b>To:</b></label>
+            <input id="end-date" type="date" name="end_date" required /> {% endcomment %}
+            {% comment %} {% endif %} {% endcomment %}
+            <input type="hidden" name="show-chart" value="True" />
+            <button type="submit" class="btn btn-danger"  style="margin: 0px 10px;">Submit</button>
+        </center>
+    </form>
+    <script>
+  // populate function
+  const subTypeObj = {
+                    'Coach - Cleanliness': ['Toilets', 'Others', 'Coach Interior', 'Washbasins', 'Cockroach | Rodents', 'Coach Exterior'],
+                    'Water Availability': ['Others', 'Packaged Drinking Water | Rail Neer', 'Washbasin', 'Toilet'],
+                    'Coach - Maintenance': ['Broken|Missing Toilet Fittings', 'Tap leaking|Tap not working', 'Others', 'Jerks|Abnormal Sound', 'Window|Door locking problem', 'Window|Seat Broken'],
+                    'Bed Roll': ['Non Availability', 'Others', 'E-Bed Roll', 'Dirty | Torn', 'Over Charging'],
+                    'Electrical Equipment': ['Lights', 'Air Conditioner', 'Fans', 'Others', 'Charging Points'],
+                    'Security': ['Others', 'Nuisance by Hawkers|Beggar|Eunuch|Passenger', 'Harassment|Extortion by Security Personnel|Railway personnel', 'Unauthorized person in Ladies|Disabled Coach|SLR|Reserve Coach'],
+                    'Staff Behaviour': ['Staff Behaviour'],
+                    'Miscellaneous': ['Miscellaneous'],
+                    'Corruption Bribery': ['Corruption | Bribery'],
+                    'Catering and Vending Services': ['Others', 'Food & Water Not Available', 'Food Quality & Quantity', 'Service Quality & Hygiene'],
+                    'Punctuality': ['NTES APP', 'Late Running'],
+                    'Divyangjan Facilities': ['Braille signage in coach', 'Divyangjan coach unavailability', 'Divyangjan toilet |washbasin'],
+                    'Medical Assistance': ['Medical Assistance'],
+                    'Facilities for Women with Special needs': ['Baby Food']
+                  }
+  function populate(s1, s2)
+  {
+    var s1 = document.getElementById(s1);
+    var s2 = document.getElementById(s2);
+    var selected = s1.value;
+    s2.innerHTML = "";
+    for (var i = -1; i < subTypeObj[selected].length; i++) {
+      var option = document.createElement("option");
+      if (i == -1) {
+        option.value = "";
+        option.text = "Select Sub Type";
+        option.setAttribute("disabled", "true");
+        option.setAttribute("selected", "selected");
+
+      } else {
+        option.value = subTypeObj[selected][i];
+        option.text = subTypeObj[selected][i];
+        if (option.text === '{{sub_type_val}}')
+        {
+          option.setAttribute("selected", "selected")
+        }
+      }
+      s2.appendChild(option);
+    }
+
+  }
+
+  // {% if post %}
+  //     populate('complain-type', 'sub-type');
+  // {% endif %}
+
+  populate('complain-type', 'sub-type');
+    </script>
+    <br />
+    <div>
+        <div class="card">
+            <!-- <div class="card-header">
+      <h4>Railway Data</h4>
+      <span class="text-muted">This is Graph Show for Railway </span>
+    </div> -->
+            {% if show_chart %}
+                <div class="charts-holder">
+                    {% for t in total %}
+                        <div class="card-block">
+                            <div id="sales-analytics">
+                                <div class="d-flex flex-column justify-content-center align-items-center rounded chart-container"
+                                     style="width: 100%">
+                                    <center>
+                                        <h5>
+                                            <u>Data Show Graph For {{ complain|index:forloop.counter0 }}</u>
+                                        </h5>
+                                    </center>
+                                    {% if show %}
+                                        <!-- <a target="blank"
+    href='/railmadad/complain/{{complain|index:forloop.counter0|to_or}}/{{start_date}}/{{end_date}}?complain_type={{complain|index:0}}&train_number={{train_numbers | join:"-"}}&physical_coach_number='> -->
+                                        <div class="chartBox">
+                                            <div class="colLarge">
+                                                <div class="box">
+                                                    <canvas id="myChart{{ forloop.counter }}" width="400px" height="300px"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- </a> -->
+                                        <button class="my-2 btn btn-primary btn-sm"
+                                                onClick="download('myChart{{ forloop.counter }}')">
+                                            Download Data-Graph
+                                        </button>
+                                    {% else %}
+                                        <br />
+                                        <center>
+                                            <h2>Please add filters to see graph</h2>
+                                        </center>
+                                    {% endif %}
+                                </div>
+                                <script>
+              const labels{{forloop.counter}} = [{% for d in dates %} '{{d}}', {% endfor %}];
+              const data{{forloop.counter}} = {
+                labels: labels{{forloop.counter}},
+                datasets: [{
+                  label: '{{complain|index:forloop.counter0}}',
+                  backgroundColor: 'rgb(255, 99, 132)',
+                  borderColor: 'rgb(255, 99, 132)',
+                  data: {{total|index:forloop.counter0}},
+                }]
+              };
+              const config{{forloop.counter}} = {
+                type: 'line',
+                data: data{{forloop.counter}},
+                options: {
+                  // maintainAspectRatio: false,
+                  responsive:true,
+                  scales: {
+                   yAxes: [{
+                        ticks: {
+                        callback: function (value) { return numberWithCommas(value); },
+                        beginAtZero: true,
+                        userCallback: function(label, index, labels) {
+                            // when the floored value is the same as the value we have a whole number
+                            if (Math.floor(label) === label) {
+                                return label;
+                            }
+
+                        },
+                        },
+                    }]
+                  }
+                }
+              };
+                                </script>
+                                <script>
+              const myChart{{forloop.counter}} = new Chart(
+                document.getElementById('myChart{{forloop.counter}}'),
+                config{{forloop.counter}}
+              );
+
+
+
+              document.getElementById('myChart1').onclick = function(e){
+                
+                var slice = myChart1.getElementsAtEventForMode(
+                              e,
+                              'nearest',
+                              { intersect: true },
+                              true
+                            );
+                var label = myChart1.data.labels[slice[0].index];
+                var complain = myChart1.config._config.data.datasets[0]["label"]
+            
+                const months = {
+                  January: '01',
+                  February: '02',
+                  March: '03',
+                  April: '04',
+                  May: '05',
+                  June: '06',
+                  July: '07',
+                  August: '08',
+                  September: '09',
+                  October: '10',
+                  November: '11',
+                  December: '12',
+                }
+                month_year = label.split(" ")[1]
+                month = month_year.split(",")[0]
+                if(label.split(" ")[0].length==1){
+                  clicked_day = "0" + label.split(" ")[0]
+                }
+                else{
+                  clicked_day = label.split(" ")[0]
+                }
+                clicked_date = month_year.split(",")[1] + "-" + months[month] + "-" + clicked_day
+
+                window.open(`/railmadad/complain/${complain}/{{start_date}}/{{end_date}}/${clicked_date}?complain_type={{complain|index:0}}&train_number={{train_numbers | join:"-"}}&physical_coach_number=`)
+              }
+
+              document.getElementById('myChart2').onclick = function(e){
+                
+                var slice = myChart2.getElementsAtEventForMode(
+                              e,
+                              'nearest',
+                              { intersect: true },
+                              true
+                            );
+                var label = myChart2.data.labels[slice[0].index];
+                var complain = myChart2.config._config.data.datasets[0]["label"]
+            
+                const months = {
+                  January: '01',
+                  February: '02',
+                  March: '03',
+                  April: '04',
+                  May: '05',
+                  June: '06',
+                  July: '07',
+                  August: '08',
+                  September: '09',
+                  October: '10',
+                  November: '11',
+                  December: '12',
+                }
+                month_year = label.split(" ")[1]
+                month = month_year.split(",")[0]
+                if(label.split(" ")[0].length==1){
+                  clicked_day = "0" + label.split(" ")[0]
+                }
+                else{
+                  clicked_day = label.split(" ")[0]
+                }
+                clicked_date = month_year.split(",")[1] + "-" + months[month] + "-" + clicked_day
+
+                window.open(`/railmadad/complain/${complain}/{{start_date}}/{{end_date}}/${clicked_date}?complain_type={{complain|index:0}}&train_number={{train_numbers | join:"-"}}&physical_coach_number=`)
+              }
+
+
+            function download(id){
+              const imageLink = document.createElement('a');
+              const canvas = document.getElementById(id);
+              console.log('Id for download: '+id)
+
+              const tempCanvas = document.createElement('canvas');
+              const tempContext = tempCanvas.getContext('2d');
+
+              tempCanvas.width = canvas.width;
+              tempCanvas.height = canvas.height;
+              
+              tempContext.fillStyle = '#ffffff';
+              tempContext.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+              tempContext.drawImage(canvas, 0, 0);
+
+              imageLink.download = 'Data_Complain_type.png'
+              imageLink.href = tempCanvas.toDataURL('media/data/canvas',1);
+              imageLink.click();
+            }
+                                </script>
+                                {% include 'railmadad/components/checkbox_js.html' %}
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="card" style="height: 50vh">
+                    <center class="m-2">
+                        <h1 style="text-decoration: underline">Apply filters to add charts</h1>
+                    </center>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- <center><u><h2>Sub Type Lists</h2></u></center>
+{% for sub_type in sub_type %}
+<a href="/railmadad/sub_type/{{sub_type}}/"><button class="btn btn-dark mx-1 my-2">{{sub_type}}</button></a>
+{% endfor %} -->
+    <script>
+  $(document).ready(function () {
+    $("#select-all-2").click(function () {
+      var checked = this.checked;
+      $('input[complain="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#select-critical").click(function () {
+      var checked = this.checked;
+      $('input[critical="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#rncc").click(function () {
+      var checked = this.checked;
+      $('input[rncc="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+    $("#all").click(function () {
+      var checked = this.checked;
+      $('input[this="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+    $("#rgd").click(function () {
+      var checked = this.checked;
+      $('input[rgd="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#dnr").click(function () {
+      var checked = this.checked;
+      $('input[dnr="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#pnbe").click(function () {
+      var checked = this.checked;
+      $('input[pnbe="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ppta").click(function () {
+      var checked = this.checked;
+      $('input[ppta="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ipr").click(function () {
+      var checked = this.checked;
+      $('input[ipr="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#keu").click(function () {
+      var checked = this.checked;
+      $('input[keu="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#mka").click(function () {
+      var checked = this.checked;
+      $('input[mka="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+
+    $("#ara").click(function () {
+      var checked = this.checked;
+      $('input[ara="true"]').each(function () {
+        this.checked = checked;
+      });
+    });
+  });
+    </script>
+{% endblock %}

@@ -1,0 +1,457 @@
+{% extends 'railmadad/base.html' %}
+{% load customrailmadad %}
+{% block body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+#more {display: none;}
+.chartBox{
+    display: flex;
+    width: 100%;
+    position: relative;
+    bottom: 0px;
+    left: 10px;
+    height: calc(100vh - 280px) !important;
+  }
+  #myStackedChart{
+    height: calc(100vh - 280px) !important;
+  }
+  .colsmall{
+    width: 50px;
+    margin-bottom: 23px;  
+    /* margin-top: 59px; */
+    background-color: white; 
+    border-right: 2px solid black;
+    z-index: 1;
+  }
+  .colsmall canvas{
+    border-radius: 0px;
+  }
+  .colLarge{
+    position: relative;
+    right: 50px; 
+    width: 100%;
+    overflow-x: auto;
+  }
+  .box{
+    width: 100%;
+  } 
+  .form-check{
+    padding: 0px;
+  }
+  @media screen and (max-width: 1300px){
+    .box{
+      width: 950px;
+    }
+
+    .form-check{
+    padding: 0px;
+  }
+  }
+    </style>
+    <form action="/railmadad/staff_graph/" method="POST">
+        {% csrf_token %}
+        <center>
+            <div class="form-check">
+                {% include 'railmadad/components/train_category_comp_withoutMerge.html' %}
+                <br />
+                <script>
+function myFunction() {
+  var dots = document.getElementById("dots"); 
+    dots.style.display = "inline";
+    btnText.innerHTML = "Show more"; 
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Show less"; 
+    moreText.style.display = "inline";
+  }
+}
+                </script>
+                <style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+                </style>
+                <center class="center">
+                    {% include 'railmadad/components/checkbox_js.html' %}
+                    <!-- {% include 'railmadad/components/complain_type_comp.html' %} -->
+                    {% include 'railmadad/components/date_range_with_staff_count_comp.html' %}
+                </center>
+            </form>
+            <br>
+            <div class="col-xl-12 col-md-12">
+                <div class="card">
+                    <!-- <div class="card-header">
+<h4>Railway Data</h4>
+<span class="text-muted">This is Graph Show for Railway </span>
+</div> -->
+                    <div class="card-blockk">
+                        <div id="sales-analytics" style="height:100%;">
+                            <div class="chart-container">
+                                {% if post %}
+                                    <center>
+                                        <h4>
+                                            <u>Data Show Graph For Bottom Staff Name Complaint Wise</u>
+                                        </h4>
+                                    </center>
+                                    <br>
+                                    <!-- <center><button onClick="download()" class="btn btn-success btn-sm">Download Data-Graph</button></center><br> -->
+                                    <div class="chartBox">
+                                        <div class="colsmall">
+                                            <canvas id="myStackedChart2"></canvas>
+                                        </div>
+                                        <div class="colLarge">
+                                            <div class="box">
+                                                <canvas id="myStackedChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <br />
+                                    <center>
+                                        <h4>
+                                            <u><b>Please add filters to see graph</b></u>
+                                        </h4>
+                                    </center>
+                                    <br />
+                                {% endif %}
+                                <style>
+* {font-family: sans-serif;}
+canvas {
+background: #f6fafd; /* Old browsers */
+background: -moz-linear-gradient(top, #f6fafd 0%, #cbdff2 73%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #f6fafd 0%,#cbdff2 73%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #f6fafd 0%,#cbdff2 73%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6fafd', endColorstr='#cbdff2',GradientType=0 ); /* IE6-9 */
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+}
+                                </style>
+                                <script>
+// JavaScript source code
+// Return with commas in between
+var numberWithCommas = function (x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+//biomass annual cost
+
+{% for t in total %}
+{% comment %} console.log("t: ",{{t}}); {% endcomment %}
+var dataPack{{forloop.counter}} = {{t}};
+dataPack{{forloop.counter}}.sort((a, b)=> {
+    return a < b;
+})
+{% endfor %}
+var dates = [{% for b_t in bottom_staff %} "{{b_t}}", {% endfor %}];
+
+console.log("dates: ",dates);
+
+var chart2_yaxes = []
+var chart_end =0
+var chart_max =0
+var chart2_yaxes_asnum = []
+var zeroLineIndex = 0
+var chartMarginTop = 0
+var chartMarginBottom = 0
+
+var bar_ctx = document.getElementById('myStackedChart');
+var ctxP = bar_ctx.getContext('2d');
+var bar_chart = new Chart(ctxP, {
+    type: 'bar',
+    data: {
+        labels: dates,
+        datasets: [
+        {% for t in total %}
+            {
+              {% if not post %}
+                label: '{{ all_type|index:forloop.counter }}',
+                data: dataPack{{forloop.counter}},
+                backgroundColor: "{{color_code|index:forloop.counter}}",
+                hoverBackgroundColor: "{{color_code|index:forloop.counter}}",
+                hoverBorderWidth: 2,
+                hoverBorderColor:'white'
+              {% else %}
+              label: '{{ complain_type|index:forloop.counter }}',
+              data: dataPack{{forloop.counter}},
+              backgroundColor: "{{color_code|index:forloop.counter}}",
+              hoverBackgroundColor: "{{color_code|index:forloop.counter}}",
+              hoverBorderWidth: 2,
+              hoverBorderColor:'white'
+              {% endif %}
+            },
+        {% endfor %}
+            
+        ]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        animation: {
+            duration: 10,
+        },
+        tooltips: {
+            mode: 'label',
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                ticks: {
+                  minRotation: 0,
+                  maxRotation: 0,
+                },
+                stacked: true,
+                gridLines: { display: false },
+            }],
+            yAxes: [{
+                
+                stacked: true,
+                ticks: {
+                    display: false,
+                    callback: function (value) { return numberWithCommas(value); },
+                    beginAtZero: true,
+                    userCallback: function(label, index, labels) {
+                        // when the floored value is the same as the value we have a whole number
+                        if (Math.floor(label) === label) {
+                            return label;
+                        }
+
+                    },
+                },
+                // gridLines:{
+                //   drawTicks: true,
+                // },
+
+                afterFit: (ctx) => {
+                  chartMarginTop = ctx.margins['top']
+                  chartMarginBottom = ctx.margins['bottom']
+                  console.log(ctx)
+                  if(bar_chart2){
+                    chart2_yaxes = ctx.ticks
+                    chart_end = ctx.end
+                    chart_max = ctx.max
+                    chart2_yaxes_asnum = ctx.ticksAsNumbers
+                    zeroLineIndex = ctx.zeroLineIndex
+                    bar_chart2.update()
+                  }
+                }
+            }],
+        }, // scales
+        legend: { display: true }
+    } // options
+}
+);
+
+
+/////////// chart 2 for y axis //////////////
+var bar_ctx2 = document.getElementById('myStackedChart2');
+var ctxP2 = bar_ctx2.getContext('2d');
+var bar_chart2 = new Chart(ctxP2, {
+    type: 'bar',
+    data: {
+        labels: dates,
+        datasets: [
+        {% for t in total %}
+            {
+              {% if not post %}
+                label: '{{ all_type|index:forloop.counter }}',
+                data: dataPack{{forloop.counter}},
+                
+              {% else %}
+              label: '{{ complain_type|index:forloop.counter }}',
+              data: dataPack{{forloop.counter}},
+              
+              {% endif %}
+            },
+        {% endfor %}
+            
+        ]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+            xAxes: [{
+                ticks: {
+                  display: false,
+                },
+                gridLines:{
+                  drawTicks: false,
+                }
+            }],
+            yAxes: [{
+                stacked: true,
+              ticks: {
+                  beginAtZero: true
+                },
+                afterFit: (ctx) => {
+                  ctx.width = 50;
+                  if(chart2_yaxes.length>1){
+                    ctx.ticks = chart2_yaxes
+                    ctx.end = chart_end
+                    ctx.zeroLineIndex = zeroLineIndex
+                    ctx.ticksAsNumbers= chart2_yaxes_asnum
+                    ctx.max = chart_max
+                  }
+                }
+            }],
+        },
+      legend: {
+         display: false,
+         position: "right"
+      },
+      layout: {
+        padding: {
+          top: chartMarginTop,
+        //   bottom: chartMarginBottom - 100,
+        }
+      },
+    }
+}
+);
+
+
+bar_ctx.onclick = function(e) {
+   var slice = bar_chart.getElementAtEvent(e);
+   if (!slice.length) return; // return if not clicked on slice
+   var label = slice[0]._model.label;
+
+   switch (label) {
+    {% for b_t in bottom_staff %}
+      case '{{b_t}}':
+         window.open('/railmadad/complain/{{b_t}}/{{start_date}}/{{end_date}}?complain_type={{complain_type | join:"--"}}&train_number={{train_numbers | join:"-"}}&physical_coach_number=');
+
+         break;
+    {% endfor %}
+   }
+}
+
+
+
+
+
+function download(){
+  const imageLink = document.createElement('a');
+  const canvas = document.getElementById('myStackedChart');
+
+  const tempCanvas = document.createElement('canvas');
+  const tempContext = tempCanvas.getContext('2d');
+
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+  
+  tempContext.fillStyle = '#ffffff';
+  tempContext.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+  tempContext.drawImage(canvas, 0, 0);
+
+  imageLink.download = 'Staff_Graph.png'
+  imageLink.href = tempCanvas.toDataURL('media/data/canvas',1);
+  imageLink.click();
+}
+
+$(document).ready(function() {
+    $('#select-all-2').click(function() {
+        var checked = this.checked;
+        $('input[complain="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+
+    $('#select-critical').click(function() {
+        var checked = this.checked;
+        $('input[critical="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#rncc').click(function() {
+        var checked = this.checked;
+        $('input[rncc="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#all').click(function() {
+        var checked = this.checked;
+        $('input[this="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    $('#rgd').click(function() {
+        var checked = this.checked;
+        $('input[rgd="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#dnr').click(function() {
+        var checked = this.checked;
+        $('input[dnr="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#pnbe').click(function() {
+        var checked = this.checked;
+        $('input[pnbe="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ppta').click(function() {
+        var checked = this.checked;
+        $('input[ppta="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ipr').click(function() {
+        var checked = this.checked;
+        $('input[ipr="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#keu').click(function() {
+        var checked = this.checked;
+        $('input[keu="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#mka').click(function() {
+        var checked = this.checked;
+        $('input[mka="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+
+    $('#ara').click(function() {
+        var checked = this.checked;
+        $('input[ara="true"]').each(function() {
+        this.checked = checked;
+    });
+    })
+    
+});
+
+
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}

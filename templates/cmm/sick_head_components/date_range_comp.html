@@ -1,0 +1,30 @@
+<center class="center">
+    {% if post %}
+        <label for="start_date">
+            <b>From:</b>
+        </label>
+        <input id="start-date"
+               type="date"
+               name="start_date"
+               value="{{ start_date }}"
+               required>
+        <label for="end_date">
+            <b>To:</b>
+        </label>
+        <input id="end-date"
+               type="date"
+               name="end_date"
+               value="{{ end_date }}"
+               required>
+    {% else %}
+        <label for="start_date">
+            <b>From:</b>
+        </label>
+        <input id = "start-date" type="date" name="start_date" required>
+        <label for="end_date">
+            <b>To:</b>
+        </label>
+        <input id="end-date" type="date" name="end_date" required>
+    {% endif %}
+    <button type="submit" class="btn btn-danger">Submit</button>
+</center>

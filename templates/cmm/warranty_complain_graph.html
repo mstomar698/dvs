@@ -1,0 +1,342 @@
+{% extends 'cmm/base.html' %}
+{% load customcmm %}
+{% load static %}
+{% block breadcrum %}
+    <li class="breadcrumb-item">
+        <a href="/">
+            <i class="fa fa-home"></i></a>
+    </li>
+    <li class="breadcrumb-item">See The Data</li>
+    <li class="breadcrumb-item">
+        <a href="/cmm/warranty_complain_graph/">Warranty Complain Graph</a>
+    </li>
+{% endblock %}
+{% block body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% include 'cmm/components_warranty/warranty_complain_graph_filters.html' %}
+    <style>
+  .chartBox{
+    display: flex !important;
+    width: 100%;
+    position: relative;
+    bottom: 0px;
+    height: calc(100vh - 250px) !important;
+  }
+  .colsmall{
+    width: 55px;
+    margin-bottom:36px;  
+    {% comment %} margin-top:25px; {% endcomment %}
+    background-color: white; 
+    border-right: 2px solid black;
+    z-index: 1;
+  }
+  .colLarge{
+    position: relative;
+    right: 46px;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .box{
+    width: 95%;
+  } 
+ .box canvas {
+    height: calc(100vh - 250px) !important;
+  }
+  @media screen and (max-width: 700px){
+    .box{
+      width: 700px;
+    }
+    .form-check{
+    padding: 0px;
+  }
+  }
+    </style>
+    <div class="card card-header bg-light my-3">
+        {% if method == 'POST' %}
+            <center>
+                <div class="btn-group border mb-3" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-success" id="show-chart">Show Chart</button>
+                    <button type="button" class="btn btn-success" id="show-table">Show Table</button>
+                </div>
+            </center>
+        {% endif %}
+        <div class="col-xl-12 col-md-12 my-3">
+            <div class="card" id="card_download">
+                <div class="card-header" id="sick-chart">
+                    <h4>CMM DATA</h4>
+                    {% if method == 'GET' %}
+                        <span class="">Please select filters to add render charts.</span>
+                    {% else %}
+                        <span class="">Showing data for Number of times a coach was sick.</span>
+                        <center>
+                            <button class="btn btn-primary btn-sm" id="download" onclick="download()">Download Chart</button>
+                        </center>
+                        <div class="chartBox">
+                            <div class="colsmall">
+                                <canvas id="chart2"></canvas>
+                            </div>
+                            <div class="colLarge">
+                                <div class="box">
+                                    <canvas id="chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-header" id="sick-table" style="display: none;">
+                    <h4>CMM DATA</h4>
+                    {% if method == 'GET' %}
+                        <span class="">Please select filters to add render charts.</span>
+                    {% else %}
+                        <span class="">Showing data for Number of times a coach was sick.</span>
+                        <center>
+                            <button class="btn btn-primary btn-sm" id="download-button">Download Table</button>
+                        </center>
+                        <center class="my-4">
+                            <h4>
+                                <u>Showing result for {{ length }} coaches.</u>
+                            </h4>
+                        </center>
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead">
+                                <tr>
+                                    <th scope="col">Sr. No.</th>
+                                    <th scope="col">
+                                        <span>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>Coach Number</span>
+                                                <i class="fa fa-sort"></i>
+                                            </div>
+                                        </span>
+                                    </th>
+                                    <th scope="col">
+                                        <span>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>Number of complains</span>
+                                                <i class="fa fa-sort"></i>
+                                            </div>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in result %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>
+                                            <span class="d-inline-block"
+                                                  tabindex="0"
+                                                  data-toggle="tooltip"
+                                                  title="Show {{ entry | get_2d_1 }} entries for coach {{ entry | get_2d_0 }}">
+                                                <a target="_blank"
+                                                   class="data"
+                                                   href='/cmm/complain_warranty/{{ entry | get_2d_0 }}/{{ complain_start }}/{{ complain_end }}?failed_assembly={{ checked_failed_data | join:"---" }}&complaint_id={{ checked_complain_data | join:"-" }}'>
+                                                    {{ entry| get_2d_0 }}
+                                                </a>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="d-inline-block"
+                                                  tabindex="0"
+                                                  data-toggle="tooltip"
+                                                  title="Show {{ entry | get_2d_1 }} entries for coach {{ entry | get_2d_0 }} ">
+                                                <a target="_blank"
+                                                   class="data"
+                                                   href='/cmm/complain_warranty/{{ entry | get_2d_0 }}/{{ complain_start }}/{{ complain_end }}?failed_assembly={{ checked_failed_data | join:"---" }}&complaint_id={{ checked_complain_data | join:"-" }}'>
+                                                    {{ entry| get_2d_1 }}
+                                                </a>
+                                            </td>
+                                        </span>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if method == 'POST' %}
+        <script>
+
+  $(document).ready(function () {
+    $('#show-chart').click(function () {
+      $('#sick-chart').show();
+      $('#sick-table').hide();
+    });
+
+    $('#show-table').click(function () {
+      $('#sick-chart').hide();
+      $('#sick-table').show();
+    });
+  })
+
+
+  const chart = document.getElementById('chart')
+  var ctx = document.getElementById('chart').getContext('2d');
+  const data = {
+    labels: [{% for l in labels %} '{{l}}', {% endfor %}],
+  datasets: [{
+    label: 'Number of complaints of coaches with respect to different failed-assembly',
+    backgroundColor: 'rgb(255,50, 50)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: [{% for t in data %}'{{t}}', {% endfor %}],
+    }]
+  };
+  var chart2_yaxes = []
+  var chart_end =0
+  var chart_max =0
+  var chart2_yaxes_asnum = []
+  var zeroLineIndex = 0
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      maintainAspectRatio: false,
+      animation: false,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            /*fixedStepSize: 1,*/
+          },
+          afterFit: (ctx) => {
+            /* if(myChart2){
+              chart2_yaxes = ctx.ticks
+              chart_end = ctx.end
+              chart_max = ctx.max
+              chart2_yaxes_asnum = ctx.ticksAsNumbers
+              zeroLineIndex = ctx.zeroLineIndex
+              myChart2.update()
+            }*/
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'No. of times a complaint is registered',
+          }
+        }],
+
+        xAxes: [{
+          ticks: {
+            minRotation: 0,
+            maxRotation: 0,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Coach Number'
+          }
+        }]
+      }
+    }
+  };
+
+  const myChart = new Chart(
+    ctx,
+    config
+  );
+
+
+  const chart2 = document.getElementById('chart2')
+  var ctx2 = document.getElementById('chart2').getContext('2d');
+
+  const config2 = {
+    type: 'bar',
+    data: data,
+    options: {
+      maintainAspectRatio: false,
+      animation: false,
+      legend: {
+        display: false,
+      },
+      layout: {
+        padding: {
+          top: 32,
+        }
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            /*fixedStepSize: 1,*/
+          },
+          afterFit: (ctx) => {
+            ctx.width = 55;
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'No. of times a complaint is registered',
+          }
+        }],
+
+        xAxes: [{
+          ticks: {
+            display: false,
+          }
+        }],
+        
+      },
+      
+    }
+  };
+
+  const myChart2 = new Chart(
+    ctx2,
+    config2
+  );
+
+  chart.onclick = function (e) {
+    console.log('clicked');
+    var slice = myChart.getElementAtEvent(e);
+    if (!slice.length) return; 
+    var label = slice[0]._model.label;
+    window.open(`/cmm/complain_warranty/${label}/{{complain_start}}/{{complain_end}}?failed_assembly={{checked_failed_data | join:"---"}}&complaint_id={{checked_complain_data | join:"-"}}&`);
+  }
+
+  function download() {
+    const imageLink = document.createElement('a');
+    const canvas = document.getElementById('chart');
+    imageLink.download = 'warranty_Complain_graph.png'
+    imageLink.href = canvas.toDataURL('media/data/canvas', 1);
+    imageLink.click();
+  }
+
+
+  document.getElementById("download-button").addEventListener("click", function () {
+    console.log("clicked")
+    var html = document.querySelector("table").outerHTML;
+    htmlToCSV(html, "warranty_complain_chart_data.csv");
+  });
+  function htmlToCSV(html, filename) {
+    var data = [];
+    var rows = document.querySelectorAll("table tr");
+    for (var i = 0; i < rows.length; i++) {
+      var row = [], cols = rows[i].querySelectorAll("td, th");
+      for (var j = 0; j < cols.length; j++) {
+        console.log(cols[j].innerText);
+        row.push(cols[j].innerText);
+      }
+      data.push(row.join("---").replaceAll(",", " ").split("---").join(", "));
+    }
+
+    downloadCSVFile(data.join("\n"), filename);
+
+  }
+
+  function downloadCSVFile(csv, filename) {
+    var csv_file, download_link;
+    csv_file = new Blob([csv], { type: "text/csv" });
+    download_link = document.createElement("a");
+    download_link.download = filename;
+    download_link.href = window.URL.createObjectURL(csv_file);
+    download_link.style.display = "none";
+    document.body.appendChild(download_link);
+    download_link.click();
+    // document.getElementById("download-button").innerText = "Download"
+
+  }
+
+        </script>
+    {% endif %}
+{% endblock %}

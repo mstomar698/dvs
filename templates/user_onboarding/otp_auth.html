@@ -1,0 +1,67 @@
+{% extends 'user_onboarding/base_user_login.html' %}
+{% block content %}
+    <style>
+  .reset-password-container-wrapper {
+    height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .reset-password-container {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    width:120%;
+    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.2);
+  }
+ 
+    </style>
+    <nav class="navbar navbar-expand-lg" style="background-color: #166fe5">
+        <a href="/"
+           class="navbar-brand mx-4"
+           id="nav"
+           style="font-weight: 500;
+                  font-size: 3.4vh;
+                  color: white">Sarva Suvidhaen Pvt Ltd</a>
+    </nav>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-primary"
+                     style="margin-top:40px"
+                     id="alert-msg"
+                     role="alert">{{ message }}</div>
+                <script>
+          setTimeout(function() {
+              $("#alert-msg").hide()
+          }, 5000)
+  
+                </script>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <!--Reset Password-->
+    <div class="reset-password-container-wrapper">
+        <center>
+            <div style="border-radius:5% !important"
+                 class="container p-5 reset-password-container">
+                <h2 class="font-weight-bold mt-3">Enter Mobile Number</h2>
+                <hr />
+                {% comment %} <p style="color: #fff; word-wrap: normal;">Forgotten your password? Enter your email address below, and we'll email instructions for setting a new one.</p> {% endcomment %}
+                <!-- <p>{{ messages }}</p> -->
+                <form method="POST" action="/auth/otp_val/">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="phone" style="margin-bottom: 12px !important">Mobile Number</label>
+                        <input type="phone"
+                               class="form-control"
+                               id="phone"
+                               name="phone"
+                               aria-describedby="phoneHelp"
+                               placeholder="Enter Mobile Number" />
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" type="submit">Send OTP</button>
+                </form>
+            </div>
+        </center>
+    </div>
+{% endblock %}

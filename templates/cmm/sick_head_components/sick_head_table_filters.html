@@ -1,0 +1,40 @@
+{% load customcmm %}
+{% block body %}
+    <form action="/cmm/sick_head_table/" method="post">
+        {% csrf_token %}
+        <div id="all-filters">
+            {% include 'cmm/sick_head_components/train_numbers.html' %}
+            {% include 'cmm/sick_head_components/coach_type.html' %}
+            {% include 'cmm/sick_head_components/coach_numbers.html' %}
+            {% include 'cmm/sick_head_components/sick_heads.html' %}
+            {% include 'cmm/sick_head_components/owning_rly.html' %}
+            {% include 'cmm/sick_head_components/coach_status.html' %}
+            {% include 'cmm/sick_head_components/department.html' %}
+            {% include 'cmm/sick_head_components/vehicle_type.html' %}
+            {% include 'cmm/sick_head_components/workshop.html' %}
+            {% include 'cmm/sick_head_components/date_filters.html' %}
+            {% include 'cmm/sick_head_components/coach_count.html' %}
+            {% include 'cmm/sick_head_components/sort_filter.html' %}
+            <center class="my-3">
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </center>
+        </div>
+        <hr>
+    </form>
+    <center>
+        <button class="btn-dark btn show-btn " id="show-filters">Hide Filters</button>
+    </center>
+    <script>
+        $(document).ready(function () {
+            $("#show-filters").click(function () {
+                $("#all-filters").fadeToggle();
+                if ($("#show-filters").text() == "Show Filters") {
+                    $("#show-filters").text("Hide Filters");
+                } else {
+                    $("#show-filters").text("Show Filters");
+                }
+                
+            });
+        })
+    </script>
+{% endblock %}

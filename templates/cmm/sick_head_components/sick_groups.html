@@ -1,0 +1,37 @@
+{% load customcmm %}
+{% load static %}
+{% block body %}
+    <center>
+        <h4 class="my-4">Select Sick Head Groups</h4>
+        {% if 'wheel-group' in checked_sick_groups %}
+            <input type="checkbox"
+                   name="sick-groups"
+                   id="wheel-group"
+                   value="wheel-group"
+                   checked>
+        {% else %}
+            <input type="checkbox"
+                   name="sick-groups"
+                   id="wheel-group"
+                   value="wheel-group">
+        {% endif %}
+        <label for="sick-groups" class="mr-2">
+            <h4>Sick Wheels Group</h4>
+        </label>
+        {% if 'battery-group' in checked_sick_groups %}
+            <input type="checkbox"
+                   name="sick-groups"
+                   id="battery-group"
+                   value="battery-group"
+                   checked>
+        {% else %}
+            <input type="checkbox"
+                   name="sick-groups"
+                   id="battery-group"
+                   value="battery-group">
+        {% endif %}
+        <label for="sick-groups" class="mr-2">
+            <h4>Sick Battery Group</h4>
+        </label>
+    </center>
+{% endblock %}

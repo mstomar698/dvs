@@ -1,0 +1,49 @@
+{% load customcmm %}
+{% block body %}
+    {% load static %}
+    <style>
+    <style>
+        
+        .center-container {
+            justify-content: center;
+            align-items: center;
+        }
+
+        select {
+            width: calc(100% - 300px);
+            max-width: 300px;
+            padding: 8px;
+            margin- : 5px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .d-flex {
+                flex-wrap: wrap;
+            }
+
+            select {
+                max-width: 100%;
+                margin-top: 10px;
+            }
+        }
+</style>
+<div class="center-container">
+<select id="train-number-dropdown" name="train-number-dropdown" multiple placeholder="Select train number" multiple>
+{% for train_number in train_numbers %}
+<option value="{{ train_number|convertint }}">{{ train_number|convertint }}</option>
+{% endfor %}
+</select>
+</div>
+<script type="text/javascript" src="{% static 'assets/js/virtual-select/virtual-select.min.js' %}"></script>
+<script type="text/javascript">
+    VirtualSelect.init({
+      ele: '#train-number-dropdown',
+      search: true,
+      optionSelectedText: 'option selected',
+      noOfDisplayValues: 1,
+      alwaysShowSelectedOptionsCount: true,
+      optionsCount: 7,
+      showSelectedOptionsFirst: true,
+    });
+</script>
+{% endblock %}

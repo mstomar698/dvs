@@ -1,0 +1,159 @@
+{% load customcmm %}
+{% block body %}
+    <style>
+    .container {
+        flex-direction: row;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 98%;
+        align-items: center;
+        align-content: center;
+    }
+    /* .sub-container{
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        width: 43%;
+    }
+    .sub-container-2{
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        width: 53%;
+    } */
+    .column {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        margin-left: 15px;
+        margin-right: 15px;
+        height: 100% ;
+    }
+    .container-2 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 50%;
+        margin: 0 auto;
+    }
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .component {
+        flex: 1;
+        margin-right: 10px;
+    }
+    .center-container {
+        text-align: center;
+    }
+    @media screen and (max-width: 1300px){
+        .container-2{
+            width: 70%;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .column {
+            margin-bottom: 20px;
+        }
+        .container-2 {
+            flex-direction: column;
+        }
+
+        .container-2 .form-floating{
+            margin: 0px;
+            width: 270px;
+        }
+
+        .container-2 .vscomp-ele{
+            margin-top: 10px;
+            max-width: 270px !important;
+        }
+
+        .buttons {
+            justify-content: center;
+        }
+        .component {
+            margin-right: 0; 
+            margin-bottom: 10px;
+        }
+    }
+    </style>
+    <form action="/cmm/sick_head_graph/" method="post">
+        {% csrf_token %}
+        <div id="all-filters">
+            <div>
+                <center>
+                    <div class="container">
+                        <div class="column">
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/train_numbers.html' %}</div>
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/coach_type.html' %}</div>
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/coach_numbers.html' %}</div>
+                        </div>
+                        <div class="column">
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/sick_heads.html' %}</div>
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/owning_rly.html' %}</div>
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/coach_status.html' %}</div>
+                        </div>
+                        <div class="column">
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/department.html' %}</div>
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/vehicle_type.html' %}</div>
+                            <div style="margin-top: 10px">{% include 'cmm/sick_head_components/workshop.html' %}</div>
+                        </div>
+                        <div class="column">{% include 'cmm/sick_head_components/date_filters.html' %}</div>
+                    </div>
+                </center>
+                <br />
+                <center>
+                    <div class="container-2">
+                        {% include 'cmm/sick_head_components/coach_count.html' %}
+                        {% include 'cmm/sick_head_components/sort_filter.html' %}
+                    </div>
+                </center>
+            </div>
+            <center class="my-3">
+                <button id="submit-button" type="submit" class="btn btn-danger">Submit</button>
+            </center>
+        </div>
+        <hr>
+    </form>
+    <center class="pcoded-content">
+        <button class="btn-dark btn show-btn " id="show-filters">Hide Filters</button>
+    </center>
+    <script>
+    $(document).ready(function () {
+        $("#show-filters").click(function () {
+            $("#all-filters").fadeToggle();
+            $("#submit-button").fadeToggle();
+            if ($("#show-filters").text() == "Show Filters") {
+                $("#show-filters").text("Hide Filters");
+            } else {
+                $("#show-filters").text("Show Filters");
+            }
+
+        });
+    })
+
+    var inputs = document.getElementsByClassName("vscomp-search-input");
+      for (var i = 0; i < inputs.length; i++) {
+        inputs[i].placeholder = "select all, type here to search";
+    }
+
+    document.querySelector('#train-number-dropdown').setValue([{% for x in checked_train_numbers %} "{{x}}", {% endfor %}]);
+    document.querySelector('#coach-type-dropdown').setValue([{% for x in checked_coach_type %} "{{x}}", {% endfor %}]);
+    document.querySelector('#coach-number-dropdown').setValue([{% for x in checked_coach_numbers %} "{{x}}", {% endfor %}]);
+    document.querySelector('#sick-head-dropdown').setValue([{% for x in checked_sick_heads %} "{{x}}", {% endfor %}]);
+    document.querySelector('#owning-rly-dropdown').setValue([{% for x in checked_owning_rly %} "{{x|safe}}", {% endfor %}]);
+    document.querySelector('#coach-status-dropdown').setValue([{% for x in checked_coach_status %} "{{x|safe}}", {% endfor %}]);
+    document.querySelector('#department-dropdown').setValue([{% for x in checked_department %} "{{x}}", {% endfor %}]);
+    document.querySelector('#vehicle-type-dropdown').setValue([{% for x in checked_vehicle_type %} "{{x}}", {% endfor %}]);
+    document.querySelector('#workshops-dropdown').setValue([{% for x in checked_workshops %} "{{x}}", {% endfor %}]);
+    </script>
+{% endblock %}

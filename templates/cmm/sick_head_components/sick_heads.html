@@ -1,0 +1,31 @@
+{% load customcmm %}
+{% block body %}
+    {% load static %}
+    <div class="d-flex justify-content-center align-items-center "
+         style="margin-top: auto;
+                margin-bottom: auto">
+        <select id="sick-head-dropdown"
+                name="sick-head-dropdown"
+                multiple
+                placeholder="Select sick head"
+                multiple>
+            {% for head in sick_head %}
+                {% if head == " " %}
+                {% else %}
+                    <option value="{{ head }}">{{ head }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <script type="text/javascript">
+    VirtualSelect.init({
+      ele: '#sick-head-dropdown',
+      search: true,
+      optionSelectedText: 'option selected',
+      noOfDisplayValues: 1,
+      alwaysShowSelectedOptionsCount: true,
+      optionsCount: 7,
+      showSelectedOptionsFirst: true,
+    });
+    </script>
+{% endblock %}
