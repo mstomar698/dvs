@@ -1,18 +1,20 @@
-{% extends 'pms/base.html' %} {% load customrailmadad %} {% block body %}
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-{% for message in messages %}
-<div id="alert" class="alert alert-{{ message.tags }}">{{ message }}</div>
-<script type="text/javascript">
+{% extends 'pms/base.html' %}
+{% load custompms %}
+{% block body %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    {% for message in messages %}
+        <div id="alert" class="alert alert-{{ message.tags }}">{{ message }}</div>
+        <script type="text/javascript">
   setTimeout(function () {
     $('#alert').alert('close');
   }, 4000);
-</script>
-{% endfor %}
-<style>
+        </script>
+    {% endfor %}
+    <style>
   .chartBox {
     display: flex;
     width: 100%;
@@ -42,20 +44,20 @@
       margin-right: 0px;
     }
   }
-</style>
-
-<form action="/api/pms/v1/get-data/" method="POST">
-  {% csrf_token %} {% include 'pms/components/pms_category.html' %}
-  <br />
-  {% include 'pms/components/date_range_comp.html' %}
-  <br />
-  <div class="chartBox">
-    <div class="chart-container">
-      <div id="line-graph"></div>
-    </div>
-  </div>
-</form>
-<script>
+    </style>
+    <form action="/api/pms/v1/get-data/" method="POST">
+        {% csrf_token %}
+        {% include 'pms/components/pms_category.html' %}
+        <br />
+        {% include 'pms/components/date_range_comp.html' %}
+        <br />
+        <div class="chartBox">
+            <div class="chart-container">
+                <div id="line-graph"></div>
+            </div>
+        </div>
+    </form>
+    <script>
   let data = {{ filtered_data | safe }};
   let sensorsById = {{ sensors_by_id | safe }};
   let provided_satrt_date = '{{ provided_satrt_date }}';
@@ -140,5 +142,5 @@
     return color;
   }
 
-</script>
+    </script>
 {% endblock %}

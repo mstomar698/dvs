@@ -10,14 +10,13 @@ from django.contrib import messages
 ########### Register & Login ####################
 #################################################
 from django_ratelimit.decorators import ratelimit
-from s2analytica.common import log_time, getratelimit
+from dvs.common import log_time, getratelimit
 
-from s2analytica.common import getratelimit
+from dvs.common import getratelimit
 
 @log_time
 @ratelimit(key='ip', rate=getratelimit)
 def user_login(request):
-    # verified
     print("user_login")
 
     if request.user.is_authenticated:
@@ -26,17 +25,7 @@ def user_login(request):
         if request.method == "POST":
             username = request.POST.get("username", "")
             password = request.POST.get("password", "")
-            for_post = request.POST.get("for_post", "")
             
-            # check if the user has entered for a post that the user is assigned to via django admin group
-            if for_post:
-                if User.objects.filter(username=username):
-                    u_d = User.objects.get(username=username)
-                    correct_group = u_d.groups.filter(name__in=[for_post]).exists()
-                    if not correct_group:
-                        messages.error(request, "Invalid post selection")
-                        return redirect(request.path)
-
             if User.objects.filter(username=username):
                 u_d = User.objects.get(username=username)
                 user_password = u_d.check_password(password)
@@ -47,7 +36,6 @@ def user_login(request):
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     login(request, user)
-                    # return redirect("/user/trend_rating")
                     # change this to home page
                     return redirect("/api/pms/v1/home/")
 
@@ -73,7 +61,6 @@ def register_user(request):
             email = request.POST.get("email", "")
             password = request.POST.get("password")
             re_password = request.POST.get("re-password")
-            phone_number = request.POST.get("phonenumber", "")
 
             username_match = User.objects.filter(username=username)
             email_match = User.objects.filter(email=email)
@@ -155,17 +142,12 @@ def register_user(request):
                 user = User.objects.get(username=user_detail.username)
                 messages.success(
                     request, "You are Successfully Register, Please Login")
-                return redirect("/login")
+                return redirect("/auth/login")
     return render(request, "user_onboarding/register.html")
 
-@log_time
-@login_required
-@ratelimit(key='ip', rate=getratelimit)
-def selector(request):
-    return render(request, 'user_onboarding/selector.html')
 
 #################################################
-########### User Detail Section ####################
+########### User Detail Section #################
 #################################################
 
 @log_time

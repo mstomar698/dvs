@@ -8,7 +8,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from .user_form import PasswordResetConfirmForm
-from s2analytica.common import log_time, getratelimit
+from dvs.common import log_time, getratelimit
 
 from django.contrib.auth.models import User
 from django.utils.http import urlsafe_base64_decode
@@ -35,8 +35,7 @@ def password_reset_request(request):
                 email_template_name = "user_onboarding/password_reset_email.txt"
                 c = {
                     "email": user.email,
-                    # 'domain':'localhost:8000',
-                    'domain': 's2analytica.suvidhaen.org',
+                    'domain':'localhost:8000',
                     'site_name': 'Website',
                     "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                     "user": user,

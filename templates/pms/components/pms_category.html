@@ -1,4 +1,5 @@
-{% load customrailmadad %} {% load static %}
+{% load custompms %}
+{% load static %}
 <style>
   .vscomp-wrapper {
     width: 100% !important;
@@ -49,53 +50,42 @@
   }
 </style>
 <div class="form-check">
-  <div
-    class="select-type-wrapper"
-    style="display: flex; flex-direction: row; justify-content: center"
-  >
-    <div class="select-type-two">
-      <div class="select-type d-flex justify-content-center align-items-center">
-        <select
-          id="sensor-dropdown"
-          name="sensor-dropdown"
-          multiple
-          placeholder="Select Sensor"
-          multiple
-        >
-        {% if not available_sensors %}
-        <option value="u1" selected>No sensors in your Device</option>
-       {% else %}
-        {% for sensor in available_sensors %}
-        <option value="{{ sensor }}" selected>{{ sensor }}</option>
-        {% endfor %}
-        {% endif %}
-        </select>
-      </div>
-      <div class="select-type d-flex justify-content-center align-items-center">
-        <select
-          id="device-dropdown"
-          name="device-dropdown"
-          multiple
-          placeholder="Select Device Number"
-          multiple
-        >
-         {% if not available_devices %}
-          <option value="u1" selected>You don't have nay registered Device</option>
-         {% else %}
-          {% for device in available_devices %}
-          <option value="{{ device }}" selected>{{ device }}</option>
-          {% endfor %}
-          {% endif %}
-
-        </select>
-      </div>
+    <div class="select-type-wrapper"
+         style="display: flex;
+                flex-direction: row;
+                justify-content: center">
+        <div class="select-type-two">
+            <div class="select-type d-flex justify-content-center align-items-center">
+                <select id="sensor-dropdown"
+                        name="sensor-dropdown"
+                        multiple
+                        placeholder="Select Sensor"
+                        multiple>
+                    {% if not available_sensors %}
+                        <option value="u1" selected>No sensors in your Device</option>
+                    {% else %}
+                        {% for sensor in available_sensors %}<option value="{{ sensor }}" selected>{{ sensor }}</option>{% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="select-type d-flex justify-content-center align-items-center">
+                <select id="device-dropdown"
+                        name="device-dropdown"
+                        multiple
+                        placeholder="Select Device Number"
+                        multiple>
+                    {% if not available_devices %}
+                        <option value="u1" selected>You don't have nay registered Device</option>
+                    {% else %}
+                        {% for device in available_devices %}<option value="{{ device }}" selected>{{ device }}</option>{% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        </div>
     </div>
-  </div>
-  <script
-    type="text/javascript"
-    src="{% static 'assets/js/virtual-select/virtual-select.min.js' %}"
-  ></script>
-  <script type="text/javascript">
+    <script type="text/javascript"
+            src="{% static 'assets/js/virtual-select/virtual-select.min.js' %}"></script>
+    <script type="text/javascript">
     VirtualSelect.init({
         ele: '#sensor-dropdown',
         search: true,
@@ -119,6 +109,5 @@
         var selected_devices = this.value;
         console.log('Selected Devices:', selected_devices);
     });
-</script>
-
+    </script>
 </div>

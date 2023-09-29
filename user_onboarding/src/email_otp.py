@@ -5,10 +5,10 @@ import smtplib
 from django.http import JsonResponse
 from django.conf import settings
 from random import randint
-from s2analytica.settings import EMAIL_HOST_PASSWORD, EMAIL_HOST_USER
+from dvs.settings import EMAIL_HOST_PASSWORD, EMAIL_HOST_USER
 from django.contrib.auth.models import User
 from django_ratelimit.decorators import ratelimit
-from s2analytica.common import log_time, getratelimit
+from dvs.common import log_time, getratelimit
 from datetime import datetime
 import time
 
@@ -52,7 +52,7 @@ def email_otp_send(request):
             subject = 'Email Verification'
             body = f'Hello Sir, \
                     Your OTP is: {otp} for registration of {email}. \
-                    By: Sarva Suvidhaen Pvt Ltd \
+                    By: Data Visualizer \
                     Regards,'
             send_email(subject, body, email)
             

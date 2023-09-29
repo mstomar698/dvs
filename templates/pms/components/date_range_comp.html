@@ -75,60 +75,48 @@
   });
 </script>
 <center>
-  <div
-    style="
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      width: 80%;
-      margin-right: 10%;
-    "
-    class="date-btn-wrapper"
-  >
-    <div class="date-components">
-      <div>
-        <label for="start_date">
-          <b>From:</b>
-        </label>
-        <input
-          id="start-date"
-          type="date"
-          name="start_date"
-          value="{{ start_date }}"
-          required
-        />
-        <input
-          id="start-time"
-          type="time"
-          name="start_time"
-          value="{{ start_time }}"
-          required
-        />
-      </div>
-      <div>
-        <label for="end_date">
-          <b>To:</b>
-        </label>
-        <input
-          id="end-date"
-          type="date"
-          name="end_date"
-          value="{{ end_date }}"
-          required
-        />
-        <input
-          id="end-time"
-          type="time"
-          name="end_time"
-          value="{{ end_time }}"
-          required
-        />
-      </div>
+    <div style="display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                width: 80%;
+                margin-right: 10%"
+         class="date-btn-wrapper">
+        <div class="date-components">
+            <div>
+                <label for="start_date">
+                    <b>From:</b>
+                </label>
+                <input id="start-date"
+                       type="date"
+                       name="start_date"
+                       value="{{ start_date }}"
+                       required />
+                <input id="start-time"
+                       type="time"
+                       name="start_time"
+                       value="{{ start_time }}"
+                       required />
+            </div>
+            <div>
+                <label for="end_date">
+                    <b>To:</b>
+                </label>
+                <input id="end-date"
+                       type="date"
+                       name="end_date"
+                       value="{{ end_date }}"
+                       required />
+                <input id="end-time"
+                       type="time"
+                       name="end_time"
+                       value="{{ end_time }}"
+                       required />
+            </div>
+        </div>
+        <div class="sumbit-download">
+            <div style="position: relative;">
+                <button type="submit" class="btn btn-danger submit-btn">Submit</button>
+            </div>
+        </div>
     </div>
-    <div class="sumbit-download">
-      <div style="position: relative;">
-        <button type="submit" class="btn btn-danger submit-btn">Submit</button>
-      </div>
-    </div>
-  </div>
 </center>

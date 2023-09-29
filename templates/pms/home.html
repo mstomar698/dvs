@@ -1,16 +1,18 @@
-{% extends 'pms/base.html' %} {% load customrailmadad %} {% block body %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-{% if message %}
-<div id="alert" class="alert" style="color: red; border: red solid 2px;">{{ message }}</div>
-<script type="text/javascript">
+{% extends 'pms/base.html' %}
+{% load custompms %}
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% if message %}
+        <div id="alert" class="alert" style="color: red; border: red solid 2px;">{{ message }}</div>
+        <script type="text/javascript">
   setTimeout(function () {
     $('#alert').alert('close');
   }, 8000);
-</script>
-{% endif %}
-<style>
+        </script>
+    {% endif %}
+    <style>
   .chartBox {
     display: flex;
     width: 100%;
@@ -29,14 +31,15 @@
     width: 100vw;
     height: 100vh;
   }
-</style>
-<form action="/api/pms/v1/get-data/" method="POST">
-  {% csrf_token %} {% include 'pms/components/pms_category.html' %}
-  <br />
-  {% include 'pms/components/date_range_comp.html' %}
-  <br />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- <div class="chartBox">
+    </style>
+    <form action="/api/pms/v1/get-data/" method="POST">
+        {% csrf_token %}
+        {% include 'pms/components/pms_category.html' %}
+        <br />
+        {% include 'pms/components/date_range_comp.html' %}
+        <br />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- <div class="chartBox">
     <div class="chart-container">
       <canvas id="pie-chart"></canvas>
     </div>
@@ -81,19 +84,18 @@
       }
 
       fetchPieChartData();
-    </script>
+</script>
   </div> -->
-  <center>
-    <div style="background-color: white; padding: 20px; width: 90%;">
         <center>
-            <h1>
+            <div style="background-color: white; padding: 20px; width: 90%;">
                 <center>
-                    <h2>Please add filters to see graph</h2>
+                    <h1>
+                        <center>
+                            <h2>Please add filters to see graph</h2>
+                        </center>
+                    </h1>
                 </center>
-              </h1>
+            </div>
         </center>
-    </div>
-  </center>
-
-</form>
+    </form>
 {% endblock %}

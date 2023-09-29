@@ -1,7 +1,7 @@
 
 
 from django.shortcuts import render, redirect
-from s2analytica.common import log_time, getratelimit
+from dvs.common import log_time, getratelimit
 from user_onboarding.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import *
@@ -50,11 +50,9 @@ def edit_profile(request):
     user_d = User.objects.get(id=request.user.id)
     if request.method == "POST":
         username = request.POST.get("username", "")
-        phone_number = request.POST.get("phone", "")
         email = request.POST.get("email", "")
 
         user_d.username = username
-        user_d.phone_number = phone_number
         user_d.email = email
         user_d.save()
         messages.success(request, "Successfully Edited")
