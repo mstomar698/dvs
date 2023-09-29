@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'user_onboarding',
     'pms',
     'bl',
+    'static_data',
     'rest_framework',
     'whitenoise.runserver_nostatic'
 ]
@@ -47,7 +48,7 @@ MIDDLEWARE = [
     'django_ratelimit.middleware.RatelimitMiddleware'
 ]
 
-RATELIMIT_VIEW='dvs.views.ratelimitingview'
+RATELIMIT_VIEW = 'dvs.views.ratelimitingview'
 
 ROOT_URLCONF = 'dvs.urls'
 
@@ -138,13 +139,13 @@ file.close()
 CURRENT_ENV = os.getenv('ENV')
 
 if CURRENT_ENV == "PROD":
-    DATABASES = data['DATABASES_PROD'] #POSTGRESQL
+    DATABASES = data['DATABASES_PROD']  # POSTGRESQL
     EMAIL_HOST_USER = data['GMAIL_PROD']['GMAIL_USER']
     EMAIL_HOST_PASSWORD = data['GMAIL_PROD']['GMAIL_PASSWORD']
     AUTH = data["2FA_AUTH_PROD"]
     DEBUG = False
 else:
-    DATABASES = data['DATABASES_LOCAL'] #SQLITE
+    DATABASES = data['DATABASES_LOCAL']  # SQLITE
     EMAIL_HOST_USER = data['GMAIL_LOCAL']['GMAIL_USER']
     EMAIL_HOST_PASSWORD = data['GMAIL_LOCAL']['GMAIL_PASSWORD']
     AUTH = data["2FA_AUTH_LOCAL"]
