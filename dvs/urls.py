@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('user_onboarding.urls')),
     path('api/pms/v1/', include('pms.urls')),
+    path('dashboard/', include('bl.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

@@ -1,0 +1,27 @@
+{% extends 'bl/base.html' %} {% load custombl %} {% block body %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% if message %}
+<div id="alert" class="alert" style="color: red; border: red solid 2px">
+  {{ message }}
+</div>
+<script type="text/javascript">
+  setTimeout(function () {
+    $('#alert').alert('close');
+  }, 8000);
+</script>
+{% endif %}
+
+<div>
+  <center>
+    <div style="background-color: white; padding: 20px; width: 90%">
+      <center>
+        <h1>
+          <center>
+            <h2>DashBoard Home</h2>
+          </center>
+        </h1>
+      </center>
+    </div>
+  </center>
+</div>
+{% endblock %}

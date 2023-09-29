@@ -1,0 +1,134 @@
+<style>
+  .date-components,
+  .sumbit-download {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .download-btn,
+  .submit-btn {
+    position: absolute;
+    bottom: 0px;
+  }
+  .date-components {
+    width: 55%;
+  }
+  .sumbit-download {
+    width: 45%;
+  }
+  @media screen and (max-width: 700px) {
+    .date-btn-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center;
+      margin-right: 0px !important;
+    }
+    .download-btn,
+    .submit-btn {
+      position: relative !important;
+    }
+    .date-components,
+    .sumbit-download {
+      width: 80%;
+    }
+    .sumbit-download {
+      margin-top: 10px;
+    }
+  }
+  @media screen and (max-width: 470px) {
+    .date-components,
+    .sumbit-download {
+      width: 95%;
+    }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const currentDate = new Date();
+
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
+
+    const formattedCurrentDate = currentDate.toISOString().split('T')[0];
+    const formattedCurrentTime = `${currentHour
+      .toString()
+      .padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}`;
+
+    document.getElementById('end-date').value = formattedCurrentDate;
+    document.getElementById('end-time').value = formattedCurrentTime;
+
+    const oneHourAgo = new Date(currentDate);
+    oneHourAgo.setHours(currentHour - 1);
+    oneHourAgo.setMinutes(currentMinute);
+
+    const formattedOneHourAgo = `${oneHourAgo
+      .getHours()
+      .toString()
+      .padStart(2, '0')}:${oneHourAgo
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
+
+    document.getElementById('start-date').value = formattedCurrentDate;
+    document.getElementById('start-time').value = formattedOneHourAgo;
+  });
+</script>
+<center>
+  <div
+    style="
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 80%;
+      margin-right: 10%;
+    "
+    class="date-btn-wrapper"
+  >
+    <div class="date-components">
+      <div>
+        <label for="start_date">
+          <b>From:</b>
+        </label>
+        <input
+          id="start-date"
+          type="date"
+          name="start_date"
+          value="{{ start_date }}"
+          required
+        />
+        <input
+          id="start-time"
+          type="time"
+          name="start_time"
+          value="{{ start_time }}"
+          required
+        />
+      </div>
+      <div>
+        <label for="end_date">
+          <b>To:</b>
+        </label>
+        <input
+          id="end-date"
+          type="date"
+          name="end_date"
+          value="{{ end_date }}"
+          required
+        />
+        <input
+          id="end-time"
+          type="time"
+          name="end_time"
+          value="{{ end_time }}"
+          required
+        />
+      </div>
+    </div>
+    <div class="sumbit-download">
+      <div style="position: relative">
+        <button type="submit" class="btn btn-danger submit-btn">Submit</button>
+      </div>
+    </div>
+  </div>
+</center>

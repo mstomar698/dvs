@@ -1,0 +1,97 @@
+{% load custombl %}
+<style>
+  .active-small {
+    background-color: #448aff;
+    color: white;
+    pointer-events: none;
+  }
+
+  .active-small a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .active {
+    background-color: #448aff;
+  }
+
+  .mx-4 {
+    margin: 0px !important;
+    padding: 0px 125px 0px 0px;
+  }
+  .mx-4 li {
+    padding: 0px 0px 0px 23px;
+  }
+  .upload-download {
+    padding: 0px 7px 0px 0px !important ;
+  }
+</style>
+<nav class="pcoded-navbar">
+  <div class="sidebar_toggle">
+    <a href="#"><i class="icon-close icons"></i></a>
+  </div>
+  <div class="pcoded-inner-navbar main-menu">
+    <div class="mt-3">
+      <div class="pcoded-navigation-label" data-i18n="nav.category.forms">
+        Charts
+      </div>
+      <ul class="pcoded-item pcoded-left-item" style="width: 150%">
+        <details>
+          <summary class="mx-2">Data</summary>
+          <div class="mx-4">
+            <li class="rating-item">
+              <a href="/api/pms/v1/get-data/" class="waves-effect waves-dark">
+                <span data-i18n="nav.dash.main">Data</span>
+              </a>
+            </li>
+          </div>
+        </details>
+      </ul>
+    </div>
+  </div>
+</nav>
+<script>
+  $(document).ready(function () {
+    var window_path;
+    var entered = 0;
+    if (window.location.pathname.trim().split('/').slice(-1)[0]) {
+      window_path = window.location.pathname.split('/').slice(-1)[0];
+    } else {
+      window_path = window.location.pathname.split('/').slice(-2)[0];
+    }
+    var array1 = $('details').children('.mx-4');
+    for (var i = 0; i < array1.length; i++) {
+      var array2 = array1[i].childNodes;
+      for (var j = 0; j < array2.length; j++) {
+        var array3 = array2[j].childNodes;
+        if (array3[1]) {
+          if (array3[1].href.split('/').slice(-1)[0] == window_path) {
+            $(array3[1]).parent().addClass('active-small');
+            entered = 1;
+          }
+        }
+      }
+    }
+
+    if (entered != 1) {
+      var array1 = $('div').children('.pcoded-left-item');
+      for (var i = 0; i < array1.length; i++) {
+        var array2 = array1[i].childNodes;
+        for (var j = 0; j < array2.length; j++) {
+          var array3 = array2[j].childNodes;
+          if (array3[1]) {
+            var window_path;
+            if (window.location.pathname.trim().split('/').slice(-1)[0]) {
+              window_path = window.location.pathname.split('/').slice(-1)[0];
+            } else {
+              window_path = window.location.pathname.split('/').slice(-2)[0];
+            }
+            if (array3[1].href.split('/').slice(-1)[0] == window_path) {
+              $(array3[1]).parent().addClass('active');
+            }
+          }
+        }
+      }
+    }
+  });
+</script>

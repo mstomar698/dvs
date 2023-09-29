@@ -39,17 +39,16 @@
                     </a>
                 </li>
             </ul>
-            {% if request.user|has_group:'Railway Admin' %}
-                <ul class="pcoded-item pcoded-left-item">
-                    <li>
-                        <a href="/auth/show_user_requested" class="waves-effect waves-dark">
-                            <span class="pcoded-micon"></span>
-                            <span class="pcoded-mtext" data-i18n="nav.form-components.main">User Requests</span>
-                            <span class="pcoded-mcaret"></span>
-                        </a>
-                    </li>
-                </ul>
-            {% endif %}
+            <ul class="pcoded-item pcoded-left-item">
+                <li>
+                    <a href="/dashboard/home/" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"></span>
+                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Dashboard</span>
+                        <span class="pcoded-mcaret"></span>
+                    </a>
+                </li>
+            </ul>
+            
         </div>
     </div>
 </nav>

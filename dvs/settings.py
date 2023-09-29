@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_onboarding',
     'pms',
+    'bl',
     'rest_framework',
     'whitenoise.runserver_nostatic'
 ]
@@ -66,6 +67,7 @@ TEMPLATES = [
             ],
             'libraries':{
                 'custompms': 'pms.custom',
+                'custombl': 'bl.custom',
             }
         },
     },
