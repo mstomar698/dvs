@@ -8,11 +8,11 @@ while true; do
   python_pid=$!
 
   # Sleep for 2 minutes
-  sleep 120
+  sleep 300
 
   # Terminate the Python script using its PID
   kill -9 $python_pid
 
   echo "Python script terminated. Waiting for the next iteration..."
-  sleep 120
+  sleep 300
 done

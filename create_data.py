@@ -16,7 +16,7 @@ def create_hum(n):
         "uname": "u1",
         "passw": "p1",
         "sensor_name": "hum",
-        "value": random.uniform(1.5, 95.5)
+        "value": random.uniform(15.5, 75.5)
     })
     response = requests.request("POST", url, headers=headers, data=payload)
     print(f"hum: {response.text} at {n}")
@@ -27,7 +27,7 @@ def create_temp(n):
         "uname": "u1",
         "passw": "p1",
         "sensor_name": "temp",
-        "value": random.uniform(15.5, 75.5)
+        "value": random.uniform(25.5, 55.5)
     })
     response = requests.request("POST", url, headers=headers, data=payload)
     print(f"temp: {response.text} at {n}")
@@ -38,7 +38,7 @@ def create_tds(n):
         "uname": "u1",
         "passw": "p1",
         "sensor_name": "tds",
-        "value": random.uniform(35.5, 45.5)
+        "value": random.uniform(35.5, 75.5)
     })
     response = requests.request("POST", url, headers=headers, data=payload)
     print(f"tds: {response.text} at {n}")

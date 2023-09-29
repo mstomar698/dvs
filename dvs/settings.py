@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'dvs.wsgi.application'
+# WSGI_APPLICATION = 'dvs.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
