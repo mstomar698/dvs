@@ -10,6 +10,7 @@ html {
   min-height: 100% !important;
   background-color: #eff5f7;
   overflow-y:scroll;
+  overflow-x:hidden;
 }
 
 body {
@@ -31,3 +32,19 @@ code {
   height: 100%;
 }
 
+::-webkit-scrollbar {
+  width: 4px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #448aff; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b3ccf6;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #448aff;
+}
