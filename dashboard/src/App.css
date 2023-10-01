@@ -210,35 +210,15 @@ input::placeholder {
   padding-top: 10px;
 }
 
-.sidebar p {
-  font-weight: 600;
-  color: #4285f4;
-  margin-left: 25px;
-}
 
-.sidebar ul li {
-  margin: 20px auto;
-  font-size: 14px;
-  cursor: pointer;
-}
 
-.sidebar ul li a:hover {
-  color: #448aff;
-}
-
-.sidebar ul li a {
-  text-decoration: none;
-  color: #000;
-}
 
 .page-body {
   background-color: #eff5f7;
   height: 100%;
 }
 
-.sidebar li span {
-  margin-left: 20px;
-}
+
 
 .sidebar .ripple {
   position: absolute;
@@ -424,4 +404,3 @@ input::placeholder {
   justify-content: center;
   align-items: center;
 }
-

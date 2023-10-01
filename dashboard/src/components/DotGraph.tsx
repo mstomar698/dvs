@@ -53,6 +53,12 @@ const DotGraph: FC<DotGraphProps> = ({ data }) => {
     },
     xAxis: {
       categories: dataToArray(data).map((item) => item[0]),
+      labels: {
+        rotation: -45,
+        style: {
+          fontSize: '9px',
+        },
+      },
     },
     yAxis: {
       title: {

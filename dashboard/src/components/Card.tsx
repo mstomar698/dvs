@@ -6,15 +6,8 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ message }) => {
   return (
-    <div className="w-full p-4 border-2">
-      <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 relative">
-        <div className="px-3 py-4 ">
-          <p className="text-lg font-semibold">{message}</p>
-        </div>
-        <div className="px-3 py-3 hidden">
-          <p className="text-lg font-semibold">{message}</p>
-        </div>
-      </div>
+    <div className="w-full min-w-[200px] min-h-[400px] max-h-[400px] shadow-md hover:shadow-lg rounded border-2 border-white/50 h-full">
+      <img src="/sdff.png" alt="Card" className='h-full w-full' />
     </div>
   );
 };

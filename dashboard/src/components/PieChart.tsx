@@ -78,7 +78,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, title }) => {
 
   return (
     <div>
-      <p className='text-xl font-weight-900 font-semibold'>{title}</p>      
+      <p className='text-xl text-center font-semibold'>{title}</p>      
       <div className="w-full h-auto">
         <canvas ref={chartRef} />
       </div>

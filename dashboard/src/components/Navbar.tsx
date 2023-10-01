@@ -8,6 +8,11 @@ interface NavbarProps {
   displaySidebar: boolean;
   visibilityData: any;
   urlData: any;
+  data: any;
+  regionInput: any;
+  pestleInput: any;
+  sectorInput: any;
+  topicInput: any;
 }
 
 const Navbar: React.FC<NavbarProps> = (props) => {
@@ -30,6 +35,11 @@ const Navbar: React.FC<NavbarProps> = (props) => {
         <Sidebar
           visibilityData={props.visibilityData}
           urlData={props.urlData}
+          data={props.data}
+          regionInput={props.regionInput}
+          pestleInput={props.pestleInput}
+          sectorInput={props.sectorInput}
+          topicInput={props.topicInput}
         />
       ) : (
         <></>

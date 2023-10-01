@@ -33,13 +33,16 @@ const BarGraph: FC<BarGraphProps> = ({ data }) => {
       type: 'bar',
     },
     title: {
-      text: 'Average Likelihood by Category and Topic',
+      text: 'Average Likelihood of Published by Topic',
     },
     xAxis: {
       categories: seriesData.map((item) => item.name),
-      reversed: true,
+      // reversed: true,
       labels: {
         rotation: -45,
+        style: {
+          fontSize: '10px',
+        },
       },
       scrollbar: {
         enabled: true,
@@ -51,31 +54,37 @@ const BarGraph: FC<BarGraphProps> = ({ data }) => {
       },
       max: 4,
     },
-    series: [
-      {
-        type: 'bar',
-        data: seriesData.map((item, index) => ({
-          ...item,
-          color: randomColors[index], // Assign random color to each bar
-        })),
-        cursor: 'pointer',
-        events: {
-          click: function (event) {
-            const topic = event.point.name;
-            const category = event.point.series.name;
-            console.log(`Topic: ${topic}, Sector: ${category}`);
-          },
+    series: categories.map((category: any, index) => ({
+      type: 'bar',
+      name: category,
+      data: data[category].map((item: any) => ({
+        name: item.topic,
+        stack: category,
+        y: item.avg_likelihood,
+        color: randomColors[index],
+      })),
+      showInLegend: true, // Show this series in the legend
+      cursor: 'pointer',
+      events: {
+        click: function (event) {
+          const topic = event.point.name;
+          const category = event.point.series.name;
+          console.log(`Topic: ${topic}, Sector: ${category}`);
         },
       },
-    ],
+    })),
     plotOptions: {
+      
       series: {
         stacking: 'normal',
       },
     },
     tooltip: {
       pointFormat:
-        '<b>{point.name}</b><br>Sector: {point.stack}<br>Average Likelihood: {point.y}',
+        '<b>Topic: {point.name}</b><br>Sector: {point.stack}<br>Average Likelihood: {point.y}',
+    },
+    legend: {
+      enabled: true, // Enable the legend
     },
   };
 

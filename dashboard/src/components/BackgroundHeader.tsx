@@ -11,13 +11,13 @@ const BackgroundHeader: React.FC<BackgroundHeaderProps> = ({
   heading,
   subheading,
 }) => {
-  const headerWidthClass = displaySidebar ? 'w-full' : 'w-full';//w-[calc(100%-230px)]
+  const headerWidthClass = displaySidebar ? 'w-full' : 'w-full'; //w-[calc(100%-230px)]
 
   return (
     <div className="background-header">
       <div className={`background-header-color ${headerWidthClass}`}>
-        <h5>{heading}</h5>
-        <p>{subheading}</p>
+        <h5>DashBoard</h5>
+        <p>Article Data Visualized</p>
       </div>
       <div className="background-header-img"></div>
     </div>

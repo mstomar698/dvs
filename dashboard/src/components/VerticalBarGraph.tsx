@@ -31,7 +31,7 @@ const VerticalBarGraph: FC<VerticalBarGraphProps> = ({ data }) => {
       labels: {
         rotation: -90,
         style: {
-          fontSize: '12px',
+          fontSize: '9px',
         },
       },
     },
@@ -42,6 +42,7 @@ const VerticalBarGraph: FC<VerticalBarGraphProps> = ({ data }) => {
     },
     series: [
       {
+        showInLegend: false,
         name: 'Count',
         type: 'column',
         data: counts.map((count, index) => ({
