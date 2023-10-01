@@ -5,11 +5,12 @@ import axios from 'axios';
 import PieChart from '../components/PieChart';
 import Card from '../components/Card';
 import DotGraph from '../components/DotGraph';
-import BarGraph from '../components/BarGraph';
 import VerticalBarGraph from '../components/VerticalBarGraph';
 import AreaGraph from '../components/AreaGraph';
 import SectorGraph from '../components/SectorAreaGraph';
 import DetailTable from '../components/DetailTable';
+import SectorTopicAreaGraph from '../components/SectorTopicAreaGraph';
+import TopicPieChart from '../components/TopicPieChart';
 
 const HomeScreen: React.FC = () => {
   const [displaySidebar, setDisplaySidebar] = useState(true);
@@ -46,6 +47,7 @@ const HomeScreen: React.FC = () => {
           '/dashboard/pie_chart_sector/',
           '/dashboard/bar_graph_sector_topic_likelihood/',
           '/dashboard/dot_graph_for_insights_published_date/',
+          '/dashboard/fetch_sectors/',
         ];
 
         const requests = urls.map(async (url) => {
@@ -98,37 +100,25 @@ const HomeScreen: React.FC = () => {
         ) : (
           <div>
             <div className="flex flex-row max-sm:flex-col">
-              <div className="w-max p-2">
+              <div className="w-max p-2 max-sm:hidden">
                 <Card message={data?.home?.message} />
               </div>
-              {/* 
-        '/dashboard/home/',✅
-        '/dashboard/pie_chart_region/',✅
-        '/dashboard/bar_graph_Source/',✅
-        '/dashboard/pie_chart_pestle/',✅
-        '/dashboard/bar_graph_sector_topic_likelihood/',✅
-        '/dashboard/dot_graph_for_insights_published_date/',✅
-        '/dashboard/pie_chart_sector/',✅
-        */}
-              {/* 
-          /dashboard/pie_chart_country/ ✅{take country name as formdata } {will be active when click on regional publishes}
-          /dashboard/dot_graph_pestle_sector_inetnsity/✅ {take pestle name as formdata } {will be active when click on sectorwise intensity}
-          /dashboard/dot_graph_sector_topic_relevance/✅  {take sector name as formdata } {will be active when click on topic relevences}
-          /dashboard/table_topic_insights_details/ ✅{take sector and topic name as formdata } {will be active when click on all publishes}
-        */}
-              <div className="w-full flex flex-row space-x-2 p-2">
-                <div className="w-3/5 p-4 rounded border border-gray-300 shadow-md hover:shadow-lg">
+
+              <div className="w-full flex flex-col max-sm:space-y-2 md:space-x-2 md:flex-row p-2">
+                <div className="md:w-3/5 sm:w-full p-4 rounded border border-gray-300 shadow-md hover:shadow-lg">
                   {data?.pie_chart_country ? (
                     <div>
                       {data?.pie_chart_country.length !== 0 ? (
                         <PieChart
                           data={data?.pie_chart_country}
                           title="Articles Published by each Country"
+                          forChartof="Country"
                         />
                       ) : (
                         <PieChart
                           data={data?.pie_chart_region}
                           title="No Data found for this Region"
+                          forChartof="Region"
                         />
                       )}
                     </div>
@@ -136,6 +126,7 @@ const HomeScreen: React.FC = () => {
                     <PieChart
                       data={data?.pie_chart_region}
                       title="Articles Published by each Region"
+                      forChartof="Region"
                     />
                   )}
                   {/* <PieChart
@@ -143,10 +134,11 @@ const HomeScreen: React.FC = () => {
                 title="Articles Published by each Country"
               /> */}
                 </div>
-                <div className="w-2/5 p-4 rounded border border-gray-300 shadow-md hover:shadow-lg">
+                <div className="md:w-2/5 sm:w-full p-4 rounded border border-gray-300 shadow-md hover:shadow-lg">
                   <PieChart
                     data={data?.pie_chart_pestle}
                     title="Articles Published for each Pestle"
+                    forChartof="Pestle"
                   />
                 </div>
               </div>
@@ -171,14 +163,15 @@ const HomeScreen: React.FC = () => {
                 </div>
               </div>
             )}
-            <div className="lg:flex p-2 space-x-2">
-              <div className="lg:w-1/2 p-4 rounded border border-gray-300 shadow-md hover:shadow-lg">
-                <BarGraph data={data?.bar_graph_sector_topic_likelihood} />
+            <div className="lg:flex p-2 max-sm:space-y-2 md:space-x-2">
+              <div className="lg:w-1/2 rounded border border-gray-300 shadow-md hover:shadow-lg">
+                <SectorTopicAreaGraph sectors={data?.fetch_sectors} />
               </div>
               <div className="lg:w-1/2 p-4 rounded border border-gray-300 shadow-md hover:shadow-lg">
-                <PieChart
+                <TopicPieChart
                   data={data?.pie_chart_sector}
                   title="Publish Counts in each Sector"
+                  forChartof="Sector"
                 />
               </div>
             </div>

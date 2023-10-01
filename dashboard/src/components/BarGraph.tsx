@@ -23,7 +23,6 @@ const BarGraph: FC<BarGraphProps> = ({ data }) => {
     });
   });
 
-  // Generate random colors for each data point
   const randomColors = seriesData.map(() => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
   });
@@ -31,13 +30,17 @@ const BarGraph: FC<BarGraphProps> = ({ data }) => {
   const options: Highcharts.Options = {
     chart: {
       type: 'bar',
+      zooming: {
+        type: 'xy',
+        mouseWheel: true
+      }
     },
     title: {
       text: 'Average Likelihood of Published by Topic',
     },
     xAxis: {
       categories: seriesData.map((item) => item.name),
-      // reversed: true,
+
       labels: {
         rotation: -45,
         style: {
@@ -63,7 +66,7 @@ const BarGraph: FC<BarGraphProps> = ({ data }) => {
         y: item.avg_likelihood,
         color: randomColors[index],
       })),
-      showInLegend: true, // Show this series in the legend
+      showInLegend: true,
       cursor: 'pointer',
       events: {
         click: function (event) {
@@ -74,7 +77,6 @@ const BarGraph: FC<BarGraphProps> = ({ data }) => {
       },
     })),
     plotOptions: {
-      
       series: {
         stacking: 'normal',
       },
@@ -84,7 +86,7 @@ const BarGraph: FC<BarGraphProps> = ({ data }) => {
         '<b>Topic: {point.name}</b><br>Sector: {point.stack}<br>Average Likelihood: {point.y}',
     },
     legend: {
-      enabled: true, // Enable the legend
+      enabled: true,
     },
   };
 

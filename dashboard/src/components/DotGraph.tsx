@@ -7,17 +7,18 @@ interface DotGraphProps {
 }
 
 const getRandomColor = () => {
-    const MIN_COLOR = 100; // Minimum color value to avoid light shades
-    const MAX_COLOR = 200; // Maximum color value to avoid white
-  
-    const randomColor = () => Math.floor(Math.random() * (MAX_COLOR - MIN_COLOR + 1) + MIN_COLOR);
-    
-    const red = randomColor().toString(16);
-    const green = randomColor().toString(16);
-    const blue = randomColor().toString(16);
-  
-    return `#${red}${green}${blue}`;
-  };
+  const MIN_COLOR = 100;
+  const MAX_COLOR = 200;
+
+  const randomColor = () =>
+    Math.floor(Math.random() * (MAX_COLOR - MIN_COLOR + 1) + MIN_COLOR);
+
+  const red = randomColor().toString(16);
+  const green = randomColor().toString(16);
+  const blue = randomColor().toString(16);
+
+  return `#${red}${green}${blue}`;
+};
 
 const DotGraph: FC<DotGraphProps> = ({ data }) => {
   if (!data) {
@@ -35,9 +36,8 @@ const DotGraph: FC<DotGraphProps> = ({ data }) => {
     return result;
   };
 
-  const seriesColor = getRandomColor(); // Generate a random color for the series
+  const seriesColor = getRandomColor();
 
-  // Function to handle data point click event
   const handlePointClick = (event: Highcharts.PointClickEventObject) => {
     const date = event.point.category;
     const insights = data[date];
@@ -47,6 +47,10 @@ const DotGraph: FC<DotGraphProps> = ({ data }) => {
   const options: Highcharts.Options = {
     chart: {
       type: 'line',
+      zooming: {
+        type: 'xy',
+        mouseWheel: true,
+      },
     },
     title: {
       text: 'Total Insights for Each Date',
@@ -56,7 +60,8 @@ const DotGraph: FC<DotGraphProps> = ({ data }) => {
       labels: {
         rotation: -45,
         style: {
-          fontSize: '9px',
+          fontSize: '12px',
+          margin: 'auto',
         },
       },
     },
@@ -70,7 +75,7 @@ const DotGraph: FC<DotGraphProps> = ({ data }) => {
         name: 'Total Insights Published',
         type: 'line',
         data: dataToArray(data).map((item) => item[1]),
-        color: seriesColor, // Set the series color
+        color: seriesColor,
         point: {
           events: {
             click: handlePointClick,

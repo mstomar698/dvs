@@ -6,13 +6,17 @@ import {
   faArrowCircleRight,
   faArrowLeftRotate,
 } from '@fortawesome/free-solid-svg-icons';
-interface PieChartProps {
+interface TopicPieChartProps {
   data: Record<string, number>;
   title: string;
   forChartof: string;
 }
 
-const PieChart: React.FC<PieChartProps> = ({ data, title, forChartof }) => {
+const TopicPieChart: React.FC<TopicPieChartProps> = ({
+  data,
+  title,
+  forChartof,
+}) => {
   library.add(faArrowCircleRight);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart<'pie', number[], unknown> | null>(null);
@@ -94,7 +98,6 @@ const PieChart: React.FC<PieChartProps> = ({ data, title, forChartof }) => {
     }
   };
   const handleResize = () => {
-    console.log('exec');
     if (window.innerWidth < 768) {
       setLegendPosition('bottom' as 'bottom');
     } else {
@@ -132,6 +135,7 @@ const PieChart: React.FC<PieChartProps> = ({ data, title, forChartof }) => {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+
           onClick: (event, elements) => {
             if (elements.length > 0) {
               const clickedIndex = elements[0].index;
@@ -147,10 +151,10 @@ const PieChart: React.FC<PieChartProps> = ({ data, title, forChartof }) => {
           },
           plugins: {
             legend: {
-              position: legendPosition as 'right',
+              position: 'bottom',
               labels: {
                 font: {
-                  size: 10,
+                  size: 16,
                 },
               },
             },
@@ -187,9 +191,9 @@ const PieChart: React.FC<PieChartProps> = ({ data, title, forChartof }) => {
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <p className="text-xl text-center font-semibold">{charTitle}</p>
+    <div className="flex justify-center flex-col space-y-10 max-sm:space-y-2">
+      <div className="flex items-center justify-between mb-8 px-8 mt-8 max-sm:px-0 max-sm:mt-0 max-sm:mb-0">
+        <h4 className="text-xl text-center font-semibold">{charTitle}</h4>
         <button
           className="cursor-pointer focus:outline-none"
           onClick={refreshChart}
@@ -197,11 +201,11 @@ const PieChart: React.FC<PieChartProps> = ({ data, title, forChartof }) => {
           <FontAwesomeIcon icon={faArrowLeftRotate} className="text-xl" />
         </button>
       </div>
-      <div className="w-full h-auto">
-        <canvas ref={chartRef} />
+      <div className="w-full max-h-[428px]">
+        <canvas ref={chartRef} className="h-full w-full" />
       </div>
     </div>
   );
 };
 
-export default PieChart;
+export default TopicPieChart;

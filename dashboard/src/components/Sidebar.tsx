@@ -178,8 +178,8 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       </ul>
 
       {props.visibilityData.visibleModal && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  flex items-center justify-center ">
-          <div className="bg-gray-100 p-4 rounded-lg w-[400px] h-max border-2 border-black/70 items-center shadow-2xl shadow-black">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto my-2 flex items-center justify-center max-sm:top-80 max-sm:left-56 ">
+        <div className="bg-gray-100 p-4 rounded-lg w-[400px] max-sm:w-[300px] h-max border-2 border-black/70 items-center shadow-2xl shadow-black">
             <div className="flex justify-end">
               <button
                 title="Close"

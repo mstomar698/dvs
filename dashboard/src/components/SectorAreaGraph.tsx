@@ -14,7 +14,6 @@ const SectorGraph: FC<SectorGraphProps> = ({ data, title }) => {
     const dates = Object.keys(data);
     const topics = new Set<string>();
 
-    // Collect all unique topics
     dates.forEach((date) => {
       data[date].forEach((item) => {
         topics.add(item.topic);
@@ -37,6 +36,10 @@ const SectorGraph: FC<SectorGraphProps> = ({ data, title }) => {
     const options: Highcharts.Options = {
       chart: {
         type: 'line',
+        zooming: {
+          type: 'xy',
+          mouseWheel: true,
+        },
       },
       title: {
         text: `Relevance of Topics in ${title} Sector`,
@@ -53,7 +56,9 @@ const SectorGraph: FC<SectorGraphProps> = ({ data, title }) => {
       tooltip: {
         shared: true,
         formatter: function () {
-          const points = (this.points ?? []).map((point) => `${point.series.name}: <b>${point.y}</b>`);
+          const points = (this.points ?? []).map(
+            (point) => `${point.series.name}: <b>${point.y}</b>`
+          );
           return `${this.x}<br>${points.join('<br>')}`;
         },
       },
@@ -63,7 +68,9 @@ const SectorGraph: FC<SectorGraphProps> = ({ data, title }) => {
           cursor: 'pointer',
           events: {
             click: function (event) {
-              const clickedTopics = event.point.series.chart.series.map((series) => series.name);
+              const clickedTopics = event.point.series.chart.series.map(
+                (series) => series.name
+              );
               console.log('Clicked Topics:', clickedTopics);
             },
           },
@@ -74,9 +81,7 @@ const SectorGraph: FC<SectorGraphProps> = ({ data, title }) => {
     setChartOptions(options);
   }, [data, title]);
 
-  return (
-    <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-  );
+  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
 };
 
 export default SectorGraph;

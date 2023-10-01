@@ -1,15 +1,16 @@
 import React, { FC } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import HCBoost from 'highcharts/modules/boost';
 
 interface AreaGraphProps {
   data: Record<string, Array<{ sector: string; intensity_sum: number }>>;
   title: string;
 }
-
+HCBoost(Highcharts);
 const AreaGraph: FC<AreaGraphProps> = ({ data, title }) => {
-  // we have two title types i.e. pestleInput and sectorInput
-  // the code right now is for pestleInput, update it to handle sectorInput too without removing anything for pestleInput graph.
+  
+  
   if (!data) {
     return null;
   }
@@ -36,11 +37,17 @@ const AreaGraph: FC<AreaGraphProps> = ({ data, title }) => {
   const options: Highcharts.Options = {
     chart: {
       type: 'area',
+      panKey: 'shift',
+      zooming: {
+        type: 'xy',
+        mouseWheel: true
+      }
     },
     title: {
       text: `Intensity of Publishments in ${title} by sectors`,
     },
     xAxis: {
+      type: 'category',
       categories: dates,
     },
     yAxis: {
@@ -48,12 +55,20 @@ const AreaGraph: FC<AreaGraphProps> = ({ data, title }) => {
         text: 'Intensity Average',
       },
     },
+    navigation: {
+      buttonOptions: {
+        enabled: true, // Show the "reset zoom" button
+      },
+      menuItemStyle: {
+        fontSize: '10px', // Set the font size of the reset zoom button text
+      },
+    },
     plotOptions: {
       area: {
         stacking: 'normal',
-        cursor: 'pointer', // Add cursor pointer to the area series
+        cursor: 'pointer', 
         events: {
-          // Handle click event on area series
+          
           click: function (event) {
             const clickedSector = event.point.series.name;
             console.log('Clicked Sector:', clickedSector);

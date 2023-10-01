@@ -21,7 +21,19 @@ const VerticalBarGraph: FC<VerticalBarGraphProps> = ({ data }) => {
   const options: Highcharts.Options = {
     chart: {
       type: 'column',
-      height: 400,
+      zooming: {
+        type: 'xy',
+        mouseWheel: true,
+      },
+      events: {
+        load: function () {
+          this.xAxis[0].setExtremes(20, 60);
+        },
+      },
+      scrollablePlotArea: {
+        minWidth: 2100,
+        scrollPositionX: 1,
+      },
     },
     title: {
       text: 'Article Sources and Published Counts',
@@ -29,10 +41,15 @@ const VerticalBarGraph: FC<VerticalBarGraphProps> = ({ data }) => {
     xAxis: {
       categories: categories,
       labels: {
-        rotation: -90,
+        rotation: -30,
         style: {
-          fontSize: '9px',
+          fontSize: '12px',
+
+          padding: '0 0 10px 0',
         },
+      },
+      scrollbar: {
+        enabled: true,
       },
     },
     yAxis: {
