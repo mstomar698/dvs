@@ -13,8 +13,10 @@ SECRET_KEY = '8f3a591832383b7572bf36afb857010335f7cfbbcba42129596bc7b6b4c180b9f2
 
 ALLOWED_HOSTS = ['*']
 DOMAIN_HOST = ['*']
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:3000']
-
+CORS_ALLOWED_ORIGINS = [ "*"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000/"]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 APPEND_SLASH = True
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
@@ -28,9 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_onboarding',
+    'static_data',
     'pms',
     'bl',
-    'static_data',
     'rest_framework',
     'whitenoise.runserver_nostatic'
 ]

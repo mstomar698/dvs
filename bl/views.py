@@ -16,6 +16,12 @@ from django.db.models.functions import Coalesce
 from django.db.models import Sum, F, Q, Min, Max, Avg, Count
 
 @api_view(['GET'])
+def get_csrf_token(request):
+    csrf_token = request.COOKIES.get('csrftoken')
+    print(csrf_token)
+    return JsonResponse({'csrfToken': csrf_token})
+
+@api_view(['GET'])
 def home(request):
     articles = ArticleDetails.objects.all()
     # serializer = ArticleDetailsSerializer(articles, many=True)
@@ -24,41 +30,42 @@ def home(request):
     return JsonResponse({'message': message}, safe=False)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def pie_chart_country(request):
     all_data = ArticleDetails.objects.all()
+    region_clicked = request.POST.get("region")
     # we require to check if data have country field, than count all the data respective to each country and make a dictionery with item as country and value as count in as how many times articles is published or added from that country, and lastly send the data as JSON so that we can use it in react.  
     country_data = defaultdict(int)
-    
     for data in all_data:
         # Check if the country is empty or ""
-        if not data.country:
-            country_name = "unverified"
-        else:
-            country_name = data.country
-        
-        country_data[country_name] += 1
-
+        if data.region == region_clicked:
+            if not data.country:
+                country_name = "unverified"
+            else:
+                country_name = data.country
+            
+            country_data[country_name] += 1
     country_data = dict(country_data)
 
     return JsonResponse(country_data)
 
-@api_view(['POST'])
+@api_view(['GET'])
 def pie_chart_region(request):
     all_data = ArticleDetails.objects.all()
-    country_clicked = request.POST.get("country")
+    
     # now, just as the country clicked by user, search DB for all articles with same country and collect all reagions in that country. Similarly as we renamed "" as unverified, now do the same for region entry with "" as unverified and "World" as "All"  
     region_data = defaultdict(int)
 
     for data in all_data:
-        if data.country == country_clicked:
-            # Check if the region is empty or "World" and rename as "All"
-            if not data.region or data.region == "World":
-                region_name = "All"
-            else:
-                region_name = data.region
+        # Check if the region is empty or "World" and rename as "All"
+        if data.region == "World":
+            region_name = "All"
+        elif not data.region:
+            region_name = "unverified"
+        else:
+            region_name = data.region
 
-            region_data[region_name] += 1
+        region_data[region_name] += 1
 
     region_data = dict(region_data)
 
@@ -114,10 +121,10 @@ def dot_graph_pestle_sector_inetnsity(request):
     # so we will need a logic that sends sector and intensity data over the duration of article publishment, 
     # like article published 17 th jan 2017 for sector of Energy in Industries pestle and have intensity of 4 similarly all other sectors on that day published will show there respective intensities.
     articles = ArticleDetails.objects.filter(pestle=pestle_selected)
-
+    # print(pestle_selected)
     # Group articles by date, sector, and calculate the sum of intensity
     grouped_data = articles.values('published__date', 'added__date', 'sector').annotate(
-        intensity_sum=Sum(Coalesce('intensity', 0))
+        intensity_sum=Avg(Coalesce('intensity', 0))
     )
 
     # Prepare data for the dot graph
@@ -125,8 +132,11 @@ def dot_graph_pestle_sector_inetnsity(request):
     for entry in grouped_data:
         date = entry['published__date'] or entry['added__date']  # Use published date, if available, else added date
         date_str = date.strftime('%Y-%m-%d')  # Convert date to string
-        sector = entry['sector']
-        intensity_sum = entry['intensity_sum']
+        if not entry['sector']:
+            sector = "unrelated"
+        else:
+            sector = entry['sector']
+        intensity_sum = round(entry['intensity_sum'])
 
         if date_str not in dot_graph_data:
             dot_graph_data[date_str] = []
@@ -136,7 +146,7 @@ def dot_graph_pestle_sector_inetnsity(request):
     return JsonResponse(dot_graph_data)
 
 
-@api_view(['GET'])
+@api_view(['GET']) # no UI as we are using intensity ui for secore in each pestle
 def pie_chart_sector(request):
     all_data = ArticleDetails.objects.all()
 
@@ -181,7 +191,7 @@ def dot_graph_sector_topic_relevance(request):
         if date_str not in dot_graph_data:
             dot_graph_data[date_str] = []
 
-        dot_graph_data[date_str].append({'sector': topic, 'relevance_sum': relevance_sum})
+        dot_graph_data[date_str].append({'topic': topic, 'relevance_sum': relevance_sum})
 
     return JsonResponse(dot_graph_data)
 
@@ -221,7 +231,6 @@ def table_topic_insights_details(request):
     topic_clicked = request.POST.get('topic')
     # when user provides sector and and topic, we will a show a table with all insights that relates to the topic in the corresponding sector, the table will have following fields: Insight, url, title, source, start Year and  end Year for each of the respective insight since it is not same for any field. add logic so that we can pass all requested data in JSON to the frontend. enlist sector and topic for which we are collecting data.
     articles = ArticleDetails.objects.filter(sector=sector_clicked, topic=topic_clicked)
-
     # Prepare data for the table
     table_data = []
     for article in articles:
