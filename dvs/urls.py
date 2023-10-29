@@ -18,21 +18,13 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path, include
 from django.conf.urls.static import static
+
 from django.conf import settings
+from . import views
 
 urlpatterns = [
-    path("", lambda request: redirect('auth/login/'), name="redirect_login"),
+    path("", views.index, name="index"),
     path('admin/', admin.site.urls),
-    path('auth/', include('user_onboarding.urls')),
+    path('api/', include('backend.urls')),
     path('dashboard/', include('Dbackend.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
-# from django.conf.urls import (
-# handler400, handler403, handler404, handler500
-# )
-
-# handler404 = 'dvs.views.handler404'
-# handler403 = 'my_app.views.permission_denied'
-# handler404 = 'my_app.views.page_not_found'
-# handler500 = 'dvs.views.server_error'

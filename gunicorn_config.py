@@ -52,6 +52,6 @@ if __name__ == '__main__':
         'info',
         '-b',
         f'0.0.0.0:{port}',
-        'cms.wsgi:application',
+        'dvs.wsgi:application',
     ]
     subprocess.call(args)
