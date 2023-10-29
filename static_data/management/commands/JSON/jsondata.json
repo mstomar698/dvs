@@ -11363,7 +11363,7 @@
   },
   {
     "end_year": 2017,
-    "intensity": "",
+    "intensity": 2,
     "sector": "Energy",
     "topic": "oil",
     "insight": "IEA Bioenergy Countries' Report - 23.09.2016",
@@ -11378,7 +11378,7 @@
     "pestle": "Industries",
     "source": "IEA",
     "title": "Back-up oil boilers in Denmark are going to be banned in all new constructions by 2017.",
-    "likelihood": ""
+    "likelihood": 1
   },
   {
     "end_year": 2020,
@@ -11420,7 +11420,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Oil State Venezuela is buying US oil and its oil workers are starving",
@@ -11435,7 +11435,7 @@
     "pestle": "Industries",
     "source": "nextbigfuture",
     "title": "Oil prices will increase to $80 a barrel in 2017.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2020,
@@ -11724,7 +11724,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Automotive",
     "topic": "gasoline",
     "insight": "Quality of Life Indicators in Context - US Employment September 2016",
@@ -11739,7 +11739,7 @@
     "pestle": "Industries",
     "source": "ethicalmarkets",
     "title": "U.S. gasoline prices are not expected to recover much in 2016, as they reflect demand worldwide and are still subject to speculation.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -11857,7 +11857,7 @@
   },
   {
     "end_year": 2017,
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "",
     "insight": "Monthly Oil Market Report",
@@ -11872,11 +11872,11 @@
     "pestle": "",
     "source": "OPEC",
     "title": "OECD Asia Pacific will keep oil output steady next year.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Monthly Oil Market Report",
@@ -11891,7 +11891,7 @@
     "pestle": "Industries",
     "source": "OPEC",
     "title": "Other regions total FSU oil supply is expected to grow by 0.12 mb/d in 2016 at an average of 13.81 mb/d.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -11933,7 +11933,7 @@
   },
   {
     "end_year": 2016,
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "growth",
     "insight": "Monthly Oil Market Report",
@@ -11948,7 +11948,7 @@
     "pestle": "Economic",
     "source": "OPEC",
     "title": "Latin America oil supply is now expected to decline in 2016 due to heavy declines in Colombia and lower growth in Brazil compared to remarkable growth in 2015 and 2014.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2017,
@@ -11990,7 +11990,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "gas",
     "insight": "Monthly Oil Market Report",
@@ -12005,7 +12005,7 @@
     "pestle": "Economic",
     "source": "OPEC",
     "title": "Substitution towards natural gas and geopolitical concerns are expected to weigh on product demand growth in 2017 in Saudi Arabia.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -12085,7 +12085,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Monthly Oil Market Report",
@@ -12100,7 +12100,7 @@
     "pestle": "Industries",
     "source": "OPEC",
     "title": "OECD Europe oil demand is projected to grow by 0.10 mb/d in 2016 for the second consecutive year and oil demand in 2017 will slightly decline compared with 2016.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -12123,7 +12123,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Monthly Oil Market Report",
@@ -12138,7 +12138,7 @@
     "pestle": "Economic",
     "source": "OPEC",
     "title": "The US is projected to remain the main contributor to anticipated OECD oil demand growth during 2017.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -12180,7 +12180,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Government",
     "topic": "economic growth",
     "insight": "Monthly Oil Market Report",
@@ -12195,7 +12195,7 @@
     "pestle": "Political",
     "source": "OPEC",
     "title": "Government debt in India has seen strong nominal growth versus the debt ratio and manageability of external debt will support economic growth in 2017.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -12237,7 +12237,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Monthly Oil Market Report",
@@ -12252,7 +12252,7 @@
     "pestle": "Industries",
     "source": "OPEC",
     "title": "World oil demand growth in 2016 is now anticipated to increase by 1.23 mb/d after a marginal upward revision.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2026,
@@ -12674,7 +12674,7 @@
   },
   {
     "end_year": 2034,
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "",
     "insight": "khor reports - palm oil: September 2016",
@@ -12689,7 +12689,7 @@
     "pestle": "",
     "source": "khorreports-palmoil",
     "title": "China's oil consumption will exceed that of the United States by 2034.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -12788,7 +12788,7 @@
   },
   {
     "end_year": 2018,
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "energy",
     "insight": "ECB staff macroeconomic projections for the euro area, September 2016",
@@ -12803,11 +12803,11 @@
     "pestle": "Industries",
     "source": "European Central Bank",
     "title": "The contribution of HICP energy inflation to headline inflation in the EU is expected to swing from -0.6 percentage point in 2016 to around +0.1 to 0.2 percentage point in 2017 and 2018.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2018,
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "gdp",
     "insight": "ECB staff macroeconomic projections for the euro area, September 2016",
@@ -12822,11 +12822,11 @@
     "pestle": "Economic",
     "source": "European Central Bank",
     "title": "Real GDP in the EU is expected to grow by 1.7% in 2016 and by 1.6% in 2017 and 2018.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "power",
     "insight": "Plaza and Lovre Accords and 1987 Crash",
@@ -12841,7 +12841,7 @@
     "pestle": "Political",
     "source": "Global Money Trends",
     "title": "Sharp increases in oil prices pose the biggest threat to growth because consumers suffer a sudden hit to purchasing power.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -13168,7 +13168,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Manufacturing",
     "topic": "production",
     "insight": "U.S. Industrial Outlook: Manufacturing to Decelerate in 2016",
@@ -13183,11 +13183,11 @@
     "pestle": "Industries",
     "source": "MAPI",
     "title": "U.S. manufacturing will not reach its pre-recession production level until the third quarter of 2017.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Pollution Prevention Week on September, 2016: Hair loss preventionrejuvenation?",
@@ -13202,7 +13202,7 @@
     "pestle": "Industries",
     "source": "Days Of Year",
     "title": "FDA has found that from face creams to soaps and other items of personal care, cosmetics companies are taking the general public for a ride. Oil could be coming from eels or shark.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2017,
@@ -13263,7 +13263,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "economic growth",
     "insight": "EU Agricultural Outlook Prospects for EU agricultural markets and income 2015-2025",
@@ -13278,7 +13278,7 @@
     "pestle": "Economic",
     "source": "Europa",
     "title": "Oilseed prices will decline further in line with general crop price projections, sluggish world economic growth and low crude oil prices.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -13339,7 +13339,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Iran News Round Up - September 1, 2016",
@@ -13354,7 +13354,7 @@
     "pestle": "Industries",
     "source": "Critical Threats",
     "title": "Two new nuclear reactors will save Iran approximately 22 million barrels of oil per year.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -13396,7 +13396,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Construction",
     "topic": "oil",
     "insight": "Reuters: Oil heads for biggest weekly loss since mid-January",
@@ -13411,7 +13411,7 @@
     "pestle": "Industries",
     "source": "Reuters",
     "title": "The end of the U.S. driving season and the prospect of building inventories create downward risk for the oil price and may see further pressure on energy stocks.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2027,
@@ -13548,7 +13548,7 @@
   },
   {
     "end_year": 2022,
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "vehicle",
     "insight": "Top Companies Investing in a Clean Energy Future",
@@ -13563,11 +13563,11 @@
     "pestle": "Industries",
     "source": "Justmeans",
     "title": "By 2022, electric vehicles will cost the same as their internal combustion counterparts.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "growth",
     "insight": "Saudi diversification affirms UAE as regional trading hub",
@@ -13582,11 +13582,11 @@
     "pestle": "Economic",
     "source": "Khaleej Times",
     "title": "Large fiscal and current account deficits in Saudi Arabia will be recorded (perhaps -15 per cent and -8.5 per cent of GDP in 2016, respectively) and GDP growth is likely to be halved to around +1.5per cent in 2016.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Why Has Buffett's Berkshire Upped its Stake in Phillips 66? (PSX,BRK.A)",
@@ -13601,11 +13601,11 @@
     "pestle": "Industries",
     "source": "Investopedia",
     "title": "Analysts have predicted a steady increase in the price of oil in the near future.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "growth",
     "insight": "Workers All Over America Are Getting a Raise",
@@ -13620,7 +13620,7 @@
     "pestle": "Economic",
     "source": "Bloomberg Business",
     "title": "Signs of higher wage growth and a tighter labor market more generally will no doubt be seized upon by Fed hawks as attesting to the prospect of a tick up in underlying U.S. inflation in the coming months.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -13833,7 +13833,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "",
     "insight": "Stanford scientists find 'water windfall' beneath California's Central Valley",
@@ -13844,11 +13844,11 @@
     "added": "August, 27 2016 11:05:10",
     "published": "June, 27 2016 00:00:00",
     "country": "",
-    "relevance": "",
+    "relevance": 2,
     "pestle": "",
     "source": "Stanford News",
     "title": "New research indicates that California's Central Valley harbors three times more groundwater than previously estimated, but challenges to using it include pumping costs, ground subsidence and possible contamination from fracking and other oil and gas activities.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -13871,7 +13871,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "growth",
     "insight": "IEA cuts oil demand forecast for 2017",
@@ -13886,7 +13886,7 @@
     "pestle": "Economic",
     "source": "Middle East Online",
     "title": "Global oil demand growth is now expected to slow to 1.2 million barrels per day in 2017 from 1.4 mb/d this year \"due to a dimmer macroeconomic outlook\".",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -14175,7 +14175,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "The one report for markets Friday",
@@ -14190,7 +14190,7 @@
     "pestle": "Industries",
     "source": "CNBC ",
     "title": "Iraq and Iran, are getting close to the limit of what they can produce. Libya is expected to bring some oil back on line, while Nigeria still has many barrels shut in.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -14270,7 +14270,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "gas",
     "insight": "Afghanistan's oil market is having a tough time",
@@ -14285,7 +14285,7 @@
     "pestle": "Economic",
     "source": "Business Insider",
     "title": "The lack of meaningful energy investment in Afghanistan will keep the country from returning its oil and natural gas output to the levels it enjoyed during the late 1960s.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -15239,7 +15239,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "",
     "insight": "IEA Sees Oil Glut Easing",
@@ -15254,7 +15254,7 @@
     "pestle": "",
     "source": "Bloomberg Business",
     "title": "Global oil markets will continue to re-balance this year as a pick-up in demand from refiners absorbs record output from several Persian Gulf producers.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -15429,7 +15429,7 @@
   },
   {
     "end_year": 2020,
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "",
     "insight": "U.S. energy independence looks 'tantalizingly close'",
@@ -15444,7 +15444,7 @@
     "pestle": "",
     "source": "CNNMoney",
     "title": "The shale oil and gas revolution of the last couple of decades has made the improbable goal of American energy independence close to reality. Analysts at Raymond James recently predicted the U.S. will be tantalizingly close by 2020.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -15600,7 +15600,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "gas",
     "insight": "World Economic Outlook, April 2016; Special Feature: Commodity Market Developments and Forecasts, with a Focus on the Energy Transition in an Era of Low Fossil Fuel Prices",
@@ -15615,7 +15615,7 @@
     "pestle": "Industries",
     "source": "International Monetary Fund (IMF)",
     "title": "Natural gas consumption has increased steadily since the 1970s, now accounting for nearly 25 percent of global primary energy consumption. Global demand for natural gas is projected to increase strongly over the medium term.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -15999,7 +15999,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "gas",
     "insight": "Cheap oil has killed nearly 200,000 U.S. jobs",
@@ -16014,7 +16014,7 @@
     "pestle": "Industries",
     "source": "CNNMoney",
     "title": "Oil and gas needs to hire between 80,000 and 100,000 people by the end of 2018 just to keep up.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -16816,7 +16816,7 @@
   },
   {
     "end_year": 2019,
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "market",
     "insight": "Anglo American and Commodity Market News July (wk3) 2016",
@@ -16831,7 +16831,7 @@
     "pestle": "Economic",
     "source": "briandcolwell",
     "title": "Although copper lags behind the 2016 performances of oil and gold, it seems like the bottom was reached back in January, which is a good news. Moreover a copper market deficit is expected to emerge in the coming years.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -17614,7 +17614,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "",
     "insight": "R2P Monitor",
@@ -17629,7 +17629,7 @@
     "pestle": "",
     "source": "globalr2p",
     "title": "Conflicts have the potential to fracture Nigerian society.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2020,
@@ -18127,7 +18127,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "",
     "topic": "market",
     "insight": "Hydrocarbon Solvents Market Growth to 2021 Driven by Aliphatic and Paints & Coating Industry",
@@ -18142,7 +18142,7 @@
     "pestle": "Economic",
     "source": "PR Newswire",
     "title": "The hydrocarbon solvents market is forecast to grow at a CAGR of 2.23% during 2016.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -18526,7 +18526,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Support services",
     "topic": "gas",
     "insight": "The Obama administration just made Arctic drilling hard to do - but not impossible",
@@ -18541,7 +18541,7 @@
     "pestle": "Environmental",
     "source": "Washington Post",
     "title": "The Obama administration finalized rules that will require companies to have strict safety and environmental protection plans in place before they drill for oil or natural gas in the Arctic Ocean.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": 2035,
@@ -18811,7 +18811,7 @@
   },
   {
     "end_year": "",
-    "intensity": "",
+    "intensity": 8,
     "sector": "Energy",
     "topic": "oil",
     "insight": "Nomura's Kwan Sees Big Data Among Game Changers in Oil, Gas Industry",
@@ -18826,7 +18826,7 @@
     "pestle": "Environmental",
     "source": "Rigzone",
     "title": "Exploration in deepwater and ultra-deepwater is not expected anytime soon despite signs that oil prices could reach $70 per barrel by end of 2016.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",
@@ -18925,7 +18925,7 @@
   },
   {
     "end_year": 2016,
-    "intensity": "",
+    "intensity": 8,
     "sector": "Manufacturing",
     "topic": "growth",
     "insight": "IEA Says Oil Prices May Fall Even Further Before Supply Fades in 2016",
@@ -18940,7 +18940,7 @@
     "pestle": "Economic",
     "source": "Bloomberg Business",
     "title": "U.S. production growth will slow to 300,000 barrels day next year from 900,000 a day in 2015.",
-    "likelihood": ""
+    "likelihood": 2
   },
   {
     "end_year": "",

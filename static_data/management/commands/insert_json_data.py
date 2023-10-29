@@ -2,7 +2,7 @@ import json
 from django.core.management.base import BaseCommand
 from datetime import datetime
 from pytz import timezone
-from bl.models import ArticleDetails
+from Dbackend.models import ArticleDetails
 
 
 class Command(BaseCommand):
@@ -31,7 +31,8 @@ class Command(BaseCommand):
                         if item.get('published'):
                             published = datetime.strptime(
                                 item['published'], '%B, %d %Y %H:%M:%S')
-                            published = published.replace(tzinfo=timezone('GMT'))
+                            published = published.replace(
+                                tzinfo=timezone('GMT'))
 
                         ArticleDetails.objects.create(
                             end_year=item['end_year'],

@@ -13,7 +13,7 @@ SECRET_KEY = '8f3a591832383b7572bf36afb857010335f7cfbbcba42129596bc7b6b4c180b9f2
 
 ALLOWED_HOSTS = ['*']
 DOMAIN_HOST = ['*']
-CORS_ALLOWED_ORIGINS = [ "*"]
+CORS_ALLOWED_ORIGINS = ["*"]
 CSRF_TRUSTED_ORIGINS = ["http://localhost:8000/"]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_ALL_ORIGINS = True
@@ -31,8 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_onboarding',
     'static_data',
-    'pms',
-    'bl',
+    'Dbackend',
     'rest_framework',
     'whitenoise.runserver_nostatic'
 ]
@@ -69,8 +68,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'libraries':{
-                'custompms': 'pms.custom',
-                'custombl': 'bl.custom',
+                'custombl': 'Dbackend.custom',
             }
         },
     },
@@ -121,7 +119,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_URL = '/auth/login/'
-LOGIN_REDIRECT_URL = '/api/pms/v1/home/'
+LOGIN_REDIRECT_URL = '/api/dashboard/home/'
 LOGOUT_REDIRECT_URL = '/'
 CORS_ALLOW_ALL_ORIGINS = True
 

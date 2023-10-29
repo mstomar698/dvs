@@ -20,7 +20,7 @@ def user_login(request):
     print("user_login")
 
     if request.user.is_authenticated:
-        return redirect("/api/pms/v1/home/")  # change this to home page
+        return redirect("/api/dashboard/home/")  # change this to home page
     else:
         if request.method == "POST":
             username = request.POST.get("username", "")
@@ -37,7 +37,7 @@ def user_login(request):
                 if user is not None:
                     login(request, user)
                     # change this to home page
-                    return redirect("/api/pms/v1/home/")
+                    return redirect("/api/dashboard/home/")
 
                 else:
                     messages.error(request, "Invalid username or password.")

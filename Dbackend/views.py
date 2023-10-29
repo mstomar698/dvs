@@ -10,8 +10,8 @@ from rest_framework.decorators import api_view
 from datetime import datetime
 from pytz import timezone, utc
 
-from bl.models import ArticleDetails
-from bl.serializers import ArticleDetailsSerializer
+from Dbackend.models import ArticleDetails
+from Dbackend.serializers import ArticleDetailsSerializer
 from django.db.models.functions import Coalesce
 from django.db.models import Sum, F, Q, Min, Max, Avg, Count
 

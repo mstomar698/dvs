@@ -21,12 +21,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-	path("", lambda request : redirect('auth/login/') , name="redirect_login"),
+    path("", lambda request: redirect('auth/login/'), name="redirect_login"),
     path('admin/', admin.site.urls),
     path('auth/', include('user_onboarding.urls')),
-    path('api/pms/v1/', include('pms.urls')),
-    path('dashboard/', include('bl.urls')),
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('dashboard/', include('Dbackend.urls')),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 # from django.conf.urls import (
