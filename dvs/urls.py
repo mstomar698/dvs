@@ -26,5 +26,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path('admin/', admin.site.urls),
     path('api/', include('backend.urls')),
+    path('pd/', include('pd.urls')),
     path('dashboard/', include('Dbackend.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

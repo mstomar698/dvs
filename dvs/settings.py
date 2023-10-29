@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'static_data',
     'Dbackend',
+    'pd',
     'backend',
     'rest_framework',
     'whitenoise.runserver_nostatic'
