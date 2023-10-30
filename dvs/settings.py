@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'dvs.wsgi.application'
+WSGI_APPLICATION = 'dvs.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -134,21 +134,35 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 
 
-file = open('secretes.json')
-data = json.load(file)
-file.close()
 
 CURRENT_ENV = os.getenv('ENV')
 
-if CURRENT_ENV == "PROD":
-    DATABASES = data['DATABASES_PROD']  # POSTGRESQL
-    EMAIL_HOST_USER = data['GMAIL_PROD']['GMAIL_USER']
-    EMAIL_HOST_PASSWORD = data['GMAIL_PROD']['GMAIL_PASSWORD']
-    AUTH = data["2FA_AUTH_PROD"]
-    DEBUG = False
+if os.getenv('ENV') == 'PROD':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ["PGDATABASE"],
+            'USER': os.environ["PGUSER"],
+            'PASSWORD': os.environ["PGPASSWORD"],
+            'HOST': os.environ["PGHOST"],
+            'PORT': os.environ["PGPORT"],
+        }
+    }
+elif os.getenv('ENV') == 'LOCAL':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }    
 else:
-    DATABASES = data['DATABASES_LOCAL']  # SQLITE
-    EMAIL_HOST_USER = data['GMAIL_LOCAL']['GMAIL_USER']
-    EMAIL_HOST_PASSWORD = data['GMAIL_LOCAL']['GMAIL_PASSWORD']
-    AUTH = data["2FA_AUTH_LOCAL"]
-    DEBUG = True
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ["PGDATABASE"],
+            'USER': os.environ["PGUSER"],
+            'PASSWORD': os.environ["PGPASSWORD"],
+            'HOST': os.environ["PGHOST"],
+            'PORT': os.environ["PGPORT"],
+        }
+    }
