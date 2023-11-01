@@ -7,4 +7,5 @@ urlpatterns = [
     path('retrieve/', views.retrieve_pd, name='retrieve'),
     path('retrieveFile/', views.retrieveFile, name='retrieveFile'),
     path('search/', views.search, name='search'),
+    path('storeFolder/', views.storeFolder, name='storeFolder'),
 ]
